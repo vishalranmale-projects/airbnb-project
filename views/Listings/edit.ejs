@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit your Listings</title>
+</head>
+<body>
+     <form action="/Listings/<%=EntireListning._id %>?_method=put" method="POST">
+    <label for="title">Update Your Title!</label>
+    <input id="title" name="title" type="text" value="<%= EntireListning.title %>">
+
+    <label for="desc">Enter Your Description!</label>
+    <input id="desc" name="description" type="text" value="<%= EntireListning.description %>">
+
+    <label for="image">Enter Your Image URL!</label>
+    <input id="image" name="image" type="text" value="<%= EntireListning.image %>">
+
+    <label for="price">Enter Your Price!</label>
+    <input id="price" name="price" type="text" value="<%= EntireListning.price %>">
+
+    <label for="location">Enter Your Location!</label>
+    <input id="location" name="location" type="text" value="<%= EntireListning.location %>">
+
+    <label for="country">Enter Your Country!</label>
+    <input id="country" name="country" type="text" value="<%= EntireListning.country %>">
+
+    <button type="submit">Submit!</button>
+</form>
+
+</body>
+</html>
