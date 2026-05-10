@@ -1,25 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%=doc[0].title%></title>
-</head>
-<body>
-   <h1>Listing Details:</h1>
-   <ul>
-    <li><%=doc[0].title%></li>
-    <li><%=doc[0].description%><li>
-    <li>&#8377;<%=doc[0].price.toLocaleString("en-IN")%><li>
-     <li><%=doc[0].location%><li>
-     <li><%=doc[0].country%><li>
-   </ul>
-    <form action="/Listings/<%=doc[0]._id%>/Edit" method="get">
-    <button type="submit">Edit</button>
-    </form>
-    <form action="/Listings/<%=doc[0]._id%>?_method=delete" method="post">
-        <button>Delete!</button>
-    </form>
-        
-</body>
-</html>
+<% layout("layouts/boilerplate") %>
+ <div class="row">
+        <div class="col-8 offset-2">
+  <div class="card individual" style="width: 18rem;">
+  <img src="<%=doc[0].image%>" class="card-img-top" alt="Listing Img Loading">
+  <div class="card-body">
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
+  </div>
+</div>
+</div>
+</div>
+

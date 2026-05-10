@@ -1,25 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create An New Listings</title>
-</head>
+<% layout("layouts/boilerplate") %>
 <body>
-    <form action="/Listings/New" method="post">
-        <label for="title">Enter Your Title!</label>
-        <input id="title" name="title" type="text">
-        <label for="desc">Enter Your Description!</label>
-        <input id="desc" name="description" type="text">
-        <label for="image">Enter Your Image URL!</label>
-        <input id="image" name="image" type="text">
-        <label for="price">Enter Your Price!</label>
-        <input id="price" name="price" type="text">
-         <label for="location">Enter Your location!</label>
-        <input id="location" name="location" type="text">
-         <label for="country">Enter Your country!</label>
-        <input id="country" name="country" type="text">
-        <button type="submit">Submit!</button>
-    </form>
+  <br>
+  <br>
+   <form action="/Listings/New?_method=post" method="post" class="NewListing">
+  <div class="mb-3">
+    <label for="title" class="form-label">title</label>
+    <input  placeholder="Enter Title" type="text" class="form-control" id="title" aria-describedby="emailHelp" name="title">
+  </div>
+  <div class="mb-3">
+    <label for="description" class="form-label">Description</label>
+    <input placeholder="Enter Description"  type="text" class="form-control" id="description" name="description">
+  </div>
+  <div class="mb-3">
+    <label for="image" class="form-label">image</label>
+    <input  placeholder="Enter Img URL" type="text" class="form-control" id="image" name="image">
+  </div>
+   <div class="mb-3">
+    <label for="price" class="form-label">price</label>
+    <input  placeholder="Enter price" type="number" class="form-control" id="price" name="price">
+  </div>
+   <div class="mb-3">
+    <label for="location" class="form-label">location</label>
+    <input  placeholder="Enter location" type="text" class="form-control" id="location" name="location">
+  </div>
+  <div class="mb-3">
+    <label for="country" class="form-label">country</label>
+    <input  placeholder="Enter Country Name" type="text" class="form-control" id="country" name="country">
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Email address</label>
+    <input  placeholder="Enter e-mail" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+  </div>
+  <button type="submit" class="btn btn-primary add-btn">Submit</button>
+</form>
+<br>
+<br>
 </body>
-</html>

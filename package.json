@@ -19,7 +19,9 @@
   },
   "dependencies": {
     "@types/method-override": "^3.0.0",
+    "bootstrap-icons": "^1.13.1",
     "ejs": "^5.0.2",
+    "ejs-mate": "^4.0.0",
     "express": "^5.2.1",
     "method-override": "^3.0.0",
     "mongoose": "^9.6.1"

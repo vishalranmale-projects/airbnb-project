@@ -1,0 +1,67 @@
+body {
+  font-family: "Plus Jakarta Sans", sans-serif !important;
+  font-optical-sizing: auto;
+  font-weight: 400; /* default weight */
+  font-style: normal;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.navbar{
+    height: 5rem;
+    background-color: white;
+}
+.MainBox{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap:10px;
+    background-color: antiquewhite;
+}
+.f-info-socials{
+    display: flex;
+    gap:20px;
+}
+.OuterDiv{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    gap: 10px;
+    
+}
+.card-img-top {
+    border-radius:1rem !important ;
+    margin-bottom: 2rem;
+     width:100%;
+     object-fit: cover !important;
+}
+
+.card {
+    border: none !important;
+    width: 300px !important;
+    transition: all 0.3s ease;
+}
+.card-body{
+    padding: 0px;
+}
+.card-img-overlay:hover{
+background-color: white;
+opacity: 0.2;
+}
+.NewListing{
+    margin-left: 20px;
+    margin-right: 20px;
+}
+main{
+    flex:1;
+}
+.add-btn{
+    background-color: red !important;
+    color: white;
+    border-radius: 10px;
+}
+.individual{
+    
+    height: 300vh !important;
+}

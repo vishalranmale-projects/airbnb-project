@@ -1,19 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Listings</title>
-</head>
-<body>
-    <h1>All Listings</h1>
-    <uL>
-           <% for(let i=0;i<allListings.length;i++){ %>
-           <li><a href="http://localhost:3000/Listings/<%=allListings[i]._id%>"><%=allListings[i].title%></a></li>
-           <%}%>
-    </uL>
-    <form action="/Listings/New" method="get">
-        <button>New Listings!</button>
-    </form>
-</body>
-</html>
+<% layout("layouts/boilerplate") %>
+
+<h1>All Listings</h1>
+
+<div class="OuterDiv">
+  <% allListings.forEach(listing => { %>
+    <a class="listing-link"    href="/Listings/<%=listing._id%>" style="text-decoration: none !important">
+    <div class="card" style="width: 20rem;">
+  <img src="<%=listing.image%>" class="card-img-top" alt="..." style="height: 20rem;">
+  <div class="card-img-overlay"></div>
+  <div class="card-body">
+    <p class="card-text" style="text-decoration: none !important;"><b><%=listing.title%></b></p>
+    <p class="card-text" style="text-decoration: none !important;">&#8377;<%=listing.price.toLocaleString("en-IN")%>/night</p>
+  </div>
+</div>
+  <% }) %>
+  </a>
+</div>
+
+<a href="/Listings/New">
+  <button type="button">New Listing!</button>
+</a>

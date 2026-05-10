@@ -3,6 +3,7 @@ const app = express();
 const methodoverride = require("method-override");
 const mongoose = require('mongoose');
 const ejs = require("ejs");
+const ejsmate = require("ejs-mate");
 app.set("viewengine","ejs");
 const listings = require("./models/Listing.js");
 mongoose.connect("mongodb://127.0.0.1:27017/wonderlust").then(()=>{
@@ -31,6 +32,7 @@ app.get("/Listings/:id",async(req,resp)=>{
 });
 // Route To Update An Submitted Data By An Form To An MongoDB
 app.post("/Listings/New",async(req,resp)=>{
+    console.log(req.body);
     let newListing = new listings({
         title:req.body.title,
         description:req.body.description,
@@ -39,7 +41,9 @@ app.post("/Listings/New",async(req,resp)=>{
         location:req.body.location,
         country:req.body.country,
     })
-   await newListing.save();
+   await newListing.save().then(()=>{
+    console.log("Data Inserted Sucessfully!");
+   });
    resp.redirect("/Listings");
 });
 // Route To Render An Edit Form
@@ -69,4 +73,10 @@ app.delete("/Listings/:id",async(req,resp)=>{
     let id = req.params.id;
     await listings.findByIdAndDelete(id);
     resp.redirect("http://localhost:3000/Listings");
+});
+
+app.engine("ejs",ejsmate);
+app.use(express.static("public"));
+app.get("/",(req,resp)=>{
+    resp.send("Welcome To Home!");
 })
