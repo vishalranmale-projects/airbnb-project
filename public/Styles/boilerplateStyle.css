@@ -65,3 +65,28 @@ main{
     
     height: 300vh !important;
 }
+.showimg{
+    height:30vh;
+}
+
+
+.listing-image img {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;   /* crops nicely */
+  border-radius: 12px;
+}
+
+.listing-details {
+  max-width: 800px;
+  margin: auto;
+}
+
+.listing-details h2 {
+  font-size: 1.8rem;
+}
+
+.btn-outline-dark, .btn-danger {
+  border-radius: 8px;
+  font-weight: 500;
+}

@@ -1,12 +1,31 @@
 <% layout("layouts/boilerplate") %>
- <div class="row">
-        <div class="col-8 offset-2">
-  <div class="card individual" style="width: 18rem;">
-  <img src="<%=doc[0].image%>" class="card-img-top" alt="Listing Img Loading">
-  <div class="card-body">
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-  </div>
-</div>
-</div>
-</div>
 
+<body class="bg-light">
+  <div class="container mt-5">
+    <!-- Image Banner -->
+    <div class="listing-image mb-4">
+      <img src="<%= doc[0].image %>" alt="Listing Image" class="img-fluid rounded shadow-sm">
+    </div>
+
+    <!-- Details Card -->
+    <div class="listing-details bg-white p-4 rounded shadow-sm">
+      <h2 class="fw-bold mb-3"><%= doc[0].title %></h2>
+      <p class="text-muted mb-4"><%= doc[0].description %></p>
+
+      <div class="mb-3">
+        <p class="fs-4 fw-semibold text-success">₹<%= doc[0].price.toLocaleString("en-IN") %> / night</p>
+        <p class="text-secondary"><%= doc[0].location %>, <%= doc[0].country %></p>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="d-flex gap-3 mt-4">
+        <form action="/Listings/<%= doc[0]._id %>/Edit" method="get">
+          <button type="submit" class="btn btn-outline-dark px-4">✏️ Edit</button>
+        </form>
+        <form action="/Listings/<%= doc[0]._id %>?_method=delete" method="post">
+          <button type="submit" class="btn btn-danger px-4">🗑️ Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
