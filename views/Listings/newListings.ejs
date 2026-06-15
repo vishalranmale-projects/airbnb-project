@@ -1,39 +1,52 @@
 <% layout("layouts/boilerplate") %>
-<body>
+
   <br>
   <br>
-   <form action="/Listings/New?_method=post" method="post" class="NewListing">
+   <form action="/Listings/New?_method=post" method="post"   class="NewListing needs-validation" novalidate>
   <div class="mb-3">
     <label for="title" class="form-label">title</label>
-    <input  placeholder="Enter Title" type="text" class="form-control" id="title" aria-describedby="emailHelp" name="title">
+    <input placeholder="Enter Title" type="text" class="form-control" id="title" aria-describedby="emailHelp" name="title" required>
+    <div class="valid-feedback">Looks Good!</div>
+    <div class="invalid-feedback">Enter An Valid Title</div>
   </div>
   <div class="mb-3">
     <label for="description" class="form-label">Description</label>
-    <input placeholder="Enter Description"  type="text" class="form-control" id="description" name="description">
+    <input placeholder="Enter Description"  type="text" class="form-control" id="description" name="description" required>
+    <div class="valid-feedback">Looks Good!</div>
+    <div class="invalid-feedback">Enter An Valid Description!</div>
   </div>
   <div class="mb-3">
     <label for="image" class="form-label">image</label>
-    <input  placeholder="Enter Img URL" type="text" class="form-control" id="image" name="image">
+    <input  placeholder="Enter Img URL" type="text" class="form-control" id="image" name="image" required>
+    <div class="valid-feedback">Looks Good!</div>
+    <div class="invalid-feedback">image Link is Mandatory!</div>
   </div>
    <div class="mb-3">
     <label for="price" class="form-label">price</label>
-    <input  placeholder="Enter price" type="number" class="form-control" id="price" name="price">
+    <input  placeholder="Enter price" type="text" class="form-control" id="price" name="price" required>
+    <div class="valid-feedback">Looks Good!</div>
+    <div class="invalid-feedback">Enter An Valid price</div>
   </div>
    <div class="mb-3">
     <label for="location" class="form-label">location</label>
-    <input  placeholder="Enter location" type="text" class="form-control" id="location" name="location">
+    <input  placeholder="Enter location" type="text" class="form-control" id="location" name="location" required>
+    <div class="valid-feedback">Looks Good!</div>
+    <div class="invalid-feedback">location is Mandatory!</div>
   </div>
   <div class="mb-3">
     <label for="country" class="form-label">country</label>
-    <input  placeholder="Enter Country Name" type="text" class="form-control" id="country" name="country">
+    <input  placeholder="Enter Country Name" type="text" class="form-control" id="country" name="country" required>
+    <div class="valid-feedback">Looks Good!</div>
+    <div class="invalid-feedback">Please Enetr An Valid Country Name!</div>
   </div>
   <div class="mb-3">
     <label for="exampleInputEmail1" class="form-label">Email address</label>
-    <input  placeholder="Enter e-mail" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+    <input  placeholder="Enter e-mail" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
     <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
   </div>
   <button type="submit" class="btn btn-primary add-btn">Submit</button>
 </form>
 <br>
 <br>
-</body>
+
+

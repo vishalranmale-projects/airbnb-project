@@ -1,30 +1,42 @@
 <% layout("layouts/boilerplate") %>
 <br>
 <br>
-     <form action="/Listings/<%=EntireListning._id %>?_method=put" method="POST" class="NewListing">
+     <form action="/Listings/<%=EntireListning._id %>?_method=put" method="POST" class="NewListing needs-validation" novalidate>
         <div>
     <label for="title"  class="form-label">Update Your Title!</label>
-    <input id="title" name="title" type="text" value="<%= EntireListning.title %>" class="form-control">
+    <input id="title" name="title" type="text" value="<%= EntireListning.title %>" class="form-control" required>
+    <div class="valid-feedback">Okay!</div>
+    <div class="invalid-feedback">Please Enetr An Valid Title!</div>
 </div>
 <div>
     <label for="desc"  class="form-label">Enter Your Description!</label>
     <input id="desc" name="description" type="text" value="<%= EntireListning.description %>" class="form-control">
+     <div class="valid-feedback">Okay!</div>
+    <div class="invalid-feedback">Please Enetr An Valid Description!</div>
 </div>
 <div>
     <label for="image"  class="form-label">Enter Your Image URL!</label>
     <input id="image" name="image" type="text" value="<%= EntireListning.image %>" class="form-control">
+     <div class="valid-feedback">Okay!</div>
+    <div class="invalid-feedback">Please Enetr An Valid Image URL</div>
 </div>
 <div>
     <label for="price"  class="form-label">Enter Your Price!</label>
     <input id="price" name="price" type="text" value="<%= EntireListning.price %>" class="form-control">
+     <div class="valid-feedback">Okay!</div>
+    <div class="invalid-feedback">Please Enetr An Valid Price!</div>
 </div>
 <div>
     <label for="location"  class="form-label">Enter Your Location!</label>
     <input id="location" name="location" type="text" value="<%= EntireListning.location %>" class="form-control">
+     <div class="valid-feedback">Okay!</div>
+    <div class="invalid-feedback">Please Enetr An Valid Location!</div>
 </div>
 <div>
     <label for="country"  class="form-label">Enter Your Country!</label>
     <input id="country" name="country" type="text" value="<%= EntireListning.country %>" class="form-control">
+     <div class="valid-feedback">Okay!</div>
+    <div class="invalid-feedback">Please Enetr An Valid Country!</div>
 </div>
 <br>
     <button class="add-btn" type="edit">edit!</button>
