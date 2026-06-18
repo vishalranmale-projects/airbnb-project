@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+let reviews = require("./Reviews");
 let ListingScheme = new mongoose.Schema({
     title:{
         type:String,
@@ -24,8 +25,21 @@ let ListingScheme = new mongoose.Schema({
     country:{
         type:String,
         required:true,
+    },
+    reviews:[{
+       type: mongoose.Schema.Types.ObjectId,
+       ref:"reviews"
     }
+        
+    ]
 });
+// Query Middleware To Delete An Particular Documents in Relationships
+ListingScheme.post("findOneAndDelete",async(Listing)=>{
+    console.log(Listing);
+    for(let i=0;i<Listing.reviews.length;i++){
+        await reviews.findByIdAndDelete(Listing.reviews[i]);
+    }
+})
 
 // Creating An Actual Collection
 const listings = new mongoose.model("listings",ListingScheme);

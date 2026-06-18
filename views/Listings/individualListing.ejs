@@ -2,30 +2,85 @@
 
 <body class="bg-light">
   <div class="container mt-5">
+      <h2 class="fw-bold mb-3"><%= doc.title %></h2>
     <!-- Image Banner -->
     <div class="listing-image mb-4">
-      <img src="<%= doc[0].image %>" alt="Listing Image" class="img-fluid rounded shadow-sm">
+      <img src="<%= doc.image %>" alt="Listing Image" class="img-fluid rounded shadow-sm">
     </div>
 
     <!-- Details Card -->
     <div class="listing-details bg-white p-4 rounded shadow-sm">
-      <h2 class="fw-bold mb-3"><%= doc[0].title %></h2>
-      <p class="text-muted mb-4"><%= doc[0].description %></p>
+      <p class="text-muted mb-4"><%= doc.description %></p>
 
       <div class="mb-3">
-        <p class="fs-4 fw-semibold text-success">₹<%= doc[0].price.toLocaleString("en-IN") %> / night</p>
-        <p class="text-secondary"><%= doc[0].location %>, <%= doc[0].country %></p>
+        <p class="fs-4 fw-semibold text-success">₹<%= doc.price.toLocaleString("en-IN") %> / night</p>
+        <p class="text-secondary"><%= doc.location %>, <%= doc.country %></p>
       </div>
 
       <!-- Action Buttons -->
       <div class="d-flex gap-3 mt-4">
-        <form action="/Listings/<%= doc[0]._id %>/Edit" method="get">
+        <form action="/Listings/<%= doc._id %>/Edit" method="get">
           <button type="submit" class="btn btn-outline-dark px-4">✏️ Edit</button>
         </form>
-        <form action="/Listings/<%= doc[0]._id %>?_method=delete" method="post">
+        <form action="/Listings/<%= doc._id %>?_method=delete" method="post">
           <button type="submit" class="btn btn-danger px-4">🗑️ Delete</button>
         </form>
       </div>
     </div>
+    <hr>
+    <div ><h2>Leave your Review!</h2>
+   <form action="/listings/<%=doc._id%>/reviews" method="post" novalidate class="needs-validation">
+    <div class="reviewform">
+      <div> <label for="cm" style="padding-top: 10px;" class="form-label">Comment:</label>
+        <textarea name="comment" class="form-control" required></textarea>
+         <div class="valid-feedback">Looks Good!</div>
+    <div class="invalid-feedback">Enter An Valid Comment!</div>
+   </div>
+   
+  <div><div><label for="rating" class="form-label" style="margin-top: 6px;">Give Rating:</label></div>
+    <input type="range" min="1" max="5" value="1" id="rating" name="rating" class="rating" required>
+    <span id="value">1</span></div>
+    </div>
+    <div style="display: flex; justify-content: center;margin-top: 15px; margin-bottom:15px" ;> <button class="btn btn-outline-dark px-4">Submit</button></div>
+</form>
+
+<script>
+    let slider = document.querySelector("#rating");
+    let value = document.querySelector("#value");
+
+    slider.addEventListener("input", () => {
+        value.textContent = slider.value;
+    });
+</script>
+    </form>
   </div>
+  <hr>
+  <h4>All Reviews</h4>
+  <% if(doc.reviews.length!=0) { %>
+  <div class="AllReviews">
+  <% for( let i =0 ; i<doc.reviews.length;i++){ %>
+   <div class="card" style="width: 20rem;">
+  <div class="card-header">
+    Vishal Ranmale
+  </div>
+  <div class="card-body">
+    <figure>
+    
+        <p><%=doc.reviews[i].comment%></p>
+     
+      <figcaption class="blockquote-footer">
+        <%= doc.reviews[i].rating %> Star Rating
+      </figcaption>
+    </figure>
+  </div>
+  <form action="/listings/<%=doc._id%>/review/<%=doc.reviews[i]._id%>?_method=delete" method="post"><button class="btn btn-danger" style="margin-left: 10px; margin-bottom: 10px;">Delete!</button></form>
+</div>
+  <%} %>
+  </div>
+
+<% } else { %>
+  <h1>Create An First Review !</h1>
+<% } %>
+  </div>
+  
 </body>
