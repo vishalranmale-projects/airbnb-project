@@ -1,7 +1,6 @@
 <% layout("layouts/boilerplate") %>
 
 <h1>All Listings</h1>
-
 <div class="OuterDiv">
   <% allListings.forEach(listing => { %>
     <a class="listing-link" href="/Listings/<%=listing._id%>" style="text-decoration: none !important">
@@ -12,8 +11,11 @@
     <p class="card-text" style="text-decoration: none !important;"><b><%=listing.title%></b></p>
     <p class="card-text" style="text-decoration: none !important;">&#8377;<%=listing.price.toLocaleString("en-IN")%>/night</p>
   </div>
-</div>
+  
+</div></a>
+
+
   <% }) %>
-  </a>
+
 </div>
 

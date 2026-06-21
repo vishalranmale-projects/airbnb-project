@@ -8,7 +8,21 @@ const ejsmate = require("ejs-mate");
 const listingRoutes  =require("./routes/listingsRoutes.js");
 const reviesRoutes = require("./routes/reviewsRoutes.js");
 const ExpressError = require("./utils/ExpressError.js");
-
+const session = require("express-session");
+const flash = require("connect-flash");
+const sessionOptions = {
+    secret:"Secret Code",
+    resave:false,
+    saveUninitialized:true,
+    cookie:{
+      expires:Date.now()+7*24*60*60*1000,
+      maxAge:7*24*60*60*1000,
+      httpOnly:true
+    }
+}
+app.use(session(
+  sessionOptions));
+app.use(flash());
 mongoose.connect("mongodb://127.0.0.1:27017/wonderlust").then(()=>{
     console.log("Connection Established To An Wonderlust Database");
 });
