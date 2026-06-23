@@ -1,7 +1,7 @@
 <% layout("layouts/boilerplate") %>
-
-<h1>All Listings</h1>
+ <h1 style="margin-left: 5rem;">All Listings</h1>
 <div class="OuterDiv">
+ 
   <% allListings.forEach(listing => { %>
     <a class="listing-link" href="/Listings/<%=listing._id%>" style="text-decoration: none !important">
     <div class="listing-card" style="width: 20rem;">

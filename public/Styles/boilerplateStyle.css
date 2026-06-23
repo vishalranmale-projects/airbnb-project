@@ -109,3 +109,9 @@ main{
     grid-template-columns: repeat(2, 5fr);
     margin: 20px 20px 20px 20px;
 }
+.flash{
+    display: flex;
+    justify-content: center;
+    width:900px;
+    margin-left: 190px;
+}

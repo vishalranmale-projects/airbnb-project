@@ -16,23 +16,27 @@ app.listen(3000,()=>{
 // Middleware For An Express Session
 app.use(session(sessionOptions));
 app.use(flash());
-
+app.use((req,resp,next)=>{
+    // Adding An Flash Messages To An res.locals
+    resp.locals.errorMsg = req.flash("error");
+    resp.locals.sucessMsg = req.flash("sucess");
+    next();
+})
 app.get("/register",(req,resp)=>{
-    let {name="ananomous"}= req.query;
+    let {name="ananomous"} = req.query;
     req.session.name = name;
-    if(name=== "ananomous"){
-     req.flash("Sucess","Registration Sucess!")
+    if(name==="ananomous"){
+        req.flash("error","user not Register yet!");
     }
     else{
-        req.flash("error","User Not Regioster Yet!")
+        req.flash("sucess","user Was Register Sucessfully!");
     }
-    
     resp.redirect("http://localhost:3000/hellow")
+    
 });
 
 app.get("/hellow",(req,resp)=>{
-    let name = req.session.name;
-    resp.locals.Sucessm = req.flash("Sucess");
-    resp.locals.Errorm = req.flash("error");
-    resp.render("Page.ejs",{name:name});
+   const name  = req.session.name;
+   resp.render("Page.ejs",{name});
+   
 })

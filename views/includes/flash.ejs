@@ -1,0 +1,18 @@
+<% if(sucess.length!=0){%>
+<div class="alert alert-success flash" id="flash" role="alert">
+<%=sucess%>
+</div>
+<% }%>
+<% if(error.length!=0){%>
+<div class="alert alert-danger flash" id="flash" role="alert">
+<%=error%>
+</div>
+<% }%>
+
+<style>
+  .hide {
+    opacity: 0;
+    transition: opacity 1s ease;
+  }
+</style>
+

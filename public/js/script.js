@@ -17,3 +17,14 @@
     }, false)
   })
 })()
+
+
+setTimeout(() => {
+    document.getElementById("flash").classList.add("hide");
+  }, 3000);
+
+  // optional: fully remove after fade
+  setTimeout(() => {
+    document.getElementById("flash").style.display = "none";
+  }, 1500);
+
