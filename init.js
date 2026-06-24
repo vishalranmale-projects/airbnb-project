@@ -1,8 +1,7 @@
 const mongoose = require("mongoose");
 const listings = require("./models/Listing.js");
 mongoose.connect("mongodb://127.0.0.1:27017/wonderlust");
-listings.insertMany([
-  {
+let initData = [{
     title: "Cozy Beachfront Cottage",
     description: "Escape to this charming beachfront cottage for a relaxing getaway. Enjoy stunning ocean views and easy access to the beach.",
     image: "https://images.unsplash.com/photo-1552733407-5d5c46c3bb3b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHRyYXZlbHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60",
@@ -1113,9 +1112,12 @@ listings.insertMany([
     "price": 2800,
     "location": "Amalfi Coast",
     "country": "Italy"
-  }
-]
-
+  }]
+ initData = initData.map((obj) => ({
+    ...obj,
+    owner: "6a3a41b2eb6a6ed887217dfb"
+}));
+listings.insertMany(initData
 ).then(()=>{
   console.log("Insertion Sucessful");
 })

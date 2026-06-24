@@ -29,9 +29,12 @@ let ListingScheme = new mongoose.Schema({
     reviews:[{
        type: mongoose.Schema.Types.ObjectId,
        ref:"reviews"
+    }],
+    owner:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"users",
+        required:true
     }
-        
-    ]
 });
 // Query Middleware To Delete An Particular Documents in Relationships
 ListingScheme.post("findOneAndDelete",async(Listing)=>{

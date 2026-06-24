@@ -36,6 +36,9 @@ app.use((req,resp,next)=>{
     resp.locals.sucess = req.flash("sucess");
     resp.locals.error = req.flash("error");
     resp.locals.currUser = req.user;
+    console.log(req.session);
+    resp.locals.redirectUrl= req.session.redirectUrl;
+    console.log(req.user);
     next();
 })
 mongoose.connect("mongodb://127.0.0.1:27017/wonderlust").then(()=>{
@@ -87,7 +90,11 @@ app.post("/signup",async(req,resp,next)=>{
 });
 // Route To Render An Sign-in Form
 app.get("/signin",(req,resp)=>{
-    resp.render("./users/signin.ejs")
+
+
+ resp.render("./users/signin.ejs");
+
+
 })
 // Route To Authenticate An user Data For An Signup
 app.post("/signin",passport.authenticate("local",{
@@ -95,7 +102,14 @@ app.post("/signin",passport.authenticate("local",{
     failureFlash:true
 }),(req,resp)=>{
     req.flash("sucess","Welcome To Wonderlust!")
+    let url = req.session.redirectUrl;
+    console.log(req.session);
+   if(resp.locals.redirectUrl && resp.locals.redirectUrl.length!=0){
+    resp.redirect(`${ resp.locals.redirectUrl}`);
+   }
+   else{
     resp.redirect("/Listings");
+   }
 })
 // Route To Logout An Current User
 app.get("/logout",(req,resp,next)=>{

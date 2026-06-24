@@ -9,6 +9,9 @@
     </div>
 
     <!-- Details Card -->
+     <div class="listing-details bg-white p-4 rounded shadow-sm">
+      <p class="text-muted mb-4"><b>Hosted By :</b><%= doc.owner.username %></p>
+
     <div class="listing-details bg-white p-4 rounded shadow-sm">
       <p class="text-muted mb-4"><%= doc.description %></p>
 
@@ -18,7 +21,8 @@
       </div>
 
       <!-- Action Buttons -->
-      <div class="d-flex gap-3 mt-4">
+       <% if(currUser && currUser._id.equals(doc.owner._id)){%>
+         <div class="d-flex gap-3 mt-4">
         <form action="/Listings/<%= doc._id %>/Edit" method="get">
           <button type="submit" class="btn btn-outline-dark px-4">✏️ Edit</button>
         </form>
@@ -27,8 +31,11 @@
         </form>
       </div>
     </div>
+       <%}%>
+     
     <hr>
-    <div ><h2>Leave your Review!</h2>
+    <%if(currUser && currUser.length!=0){%>
+ <div ><h2>Leave your Review!</h2>
    <form action="/listings/<%=doc._id%>/reviews" method="post" novalidate class="needs-validation">
     <div class="reviewform">
       <div> <label for="cm" style="padding-top: 10px;" class="form-label">Comment:</label>
@@ -43,6 +50,8 @@
     </div>
     <div style="display: flex; justify-content: center;margin-top: 15px; margin-bottom:15px" ;> <button class="btn btn-outline-dark px-4">Submit</button></div>
 </form>
+   <% }%>
+    
 
 <script>
     let slider = document.querySelector("#rating");
@@ -56,12 +65,12 @@
   </div>
   <hr>
   <h4>All Reviews</h4>
-  <% if(doc.reviews.length!=0) { %>
+  <% if(doc.reviews.length!=0){ %>
   <div class="AllReviews">
   <% for( let i =0 ; i<doc.reviews.length;i++){ %>
    <div class="card" style="width: 20rem;">
   <div class="card-header">
-    Vishal Ranmale
+     Review by @<%=doc.reviews[i].author.username%>
   </div>
   <div class="card-body">
     <figure>
@@ -73,14 +82,18 @@
       </figcaption>
     </figure>
   </div>
-  <form action="/listings/<%=doc._id%>/review/<%=doc.reviews[i]._id%>?_method=delete" method="post"><button class="btn btn-danger" style="margin-left: 10px; margin-bottom: 10px;">Delete!</button></form>
-</div>
-  <%} %>
-  </div>
+  <% if(currUser && currUser._id.equals(doc.reviews[i].author._id)){%>
+ <form action="/listings/<%=doc._id%>/review/<%=doc.reviews[i]._id%>?_method=delete" method="post">
+    <button class="btn btn-danger" style="margin-left: 10px; margin-bottom: 10px;">Delete!</button>
+ </form>
 
+  <%}%>
+</div>
+
+ 
+<% } %>
 <% } else { %>
   <h1>Create An First Review !</h1>
 <% } %>
   </div>
-  
 </body>

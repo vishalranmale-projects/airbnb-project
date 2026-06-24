@@ -5,23 +5,18 @@ const reviews = require("../models/Reviews.js");
 const listings = require("../models/Listing.js");
 const validateReviewSchema = require("../validateReviewSchema.js"); 
 const flash = require("connect-flash");
-const isloggedIn = require("../middleware.js");
-// Function To Validate An Review
-function validatereviewf(req,resp,next){
-    const {error} = validateReviewSchema.validate(req.body);
-    if(error){
-        next(error);//Calling An Error Handling Middleware
-    }
-    else{
-        next();//Simply Execute An Another Route
-    }
-}
+const {isloggedIn} = require("../middleware.js");
+const {validateReview} = require("../middleware.js")
+const {isAuthor}  =require("../middleware.js");
+
 // Route To Submit An Review To An Review Table
-routes.post("/reviews",isloggedIn,validatereviewf,wrapAsync(async(req,resp)=>{
+routes.post("/reviews",isloggedIn,validateReview,wrapAsync(async(req,resp)=>{
 let review  = req.body;
 let review1 = new reviews({
     comment : review.comment,
-    rating:review.rating
+    rating:review.rating,
+    // Storing An Author Of An Review
+    author:req.user._id
 });
 await review1.save().then(()=>{
     console.log("Review Was Saved!");
@@ -36,7 +31,7 @@ let Listing = await listings.findById(id1);
  resp.redirect(`/Listings/${id1}`);
 }));
 // Route To delete An Particular Review
-routes.delete("/review/:review_id",isloggedIn,async(req,resp)=>{
+routes.delete("/review/:review_id",isloggedIn,isAuthor,async(req,resp)=>{
     let Listing_id = req.params.listing_id;
     let review_id = req.params.review_id;
     let listing = await listings.findById(Listing_id);
