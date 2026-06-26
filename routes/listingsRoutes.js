@@ -28,7 +28,7 @@ router.get("/:id/Edit",isloggedIn,isOwner,wrapAsync(showEditform));
 router.post("/New",isloggedIn, validateListing,upload.single("image"), wrapAsync(newListing))
 
 // Route To Update An Data From An Form To AN Database
-router.put("/:id",isloggedIn,isOwner,validateListing,wrapAsync( updateListing));
+router.put("/:id",isloggedIn,isOwner,validateListing,upload.single("image"),wrapAsync( updateListing));
 
 // Route To Delete An Particular Listings From An Database
 router.delete("/:id",isloggedIn,isOwner,wrapAsync(deleteListing));

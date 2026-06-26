@@ -58,19 +58,33 @@ let newListing = async(req,resp,next)=>{
 }
 
 let updateListing = async(req,resp,next)=>{
-  // Autorization
  let {id}= req.params;
+ let Listing = await listings.findById(id);
    let Data = req.body;
+   
+   let url;
+   let filename;
+   if(req.file){
+    url=req.file.path;
+    filename=req.file.filename;
+   }
+   else{
+     url=Listing.image.path
+     filename = Listing.image.filename
+   }
   await listings.findByIdAndUpdate(id,{
     title:Data.title,
     description:Data.description,
-    image:Data.image,
+    image:{
+        path:url,
+        filename:filename
+    },
     price:Data.price,
     location:Data.location,
     country:Data.country,
 });
 req.flash("sucess","Listing Was Updated!")
-resp.redirect("/Listings");
+resp.redirect(`/Listings/${id}`);
 }
 
 let deleteListing = async(req,resp,next)=>{

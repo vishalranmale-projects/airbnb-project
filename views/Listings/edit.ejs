@@ -14,9 +14,13 @@
      <div class="valid-feedback">Okay!</div>
     <div class="invalid-feedback">Please Enetr An Valid Description!</div>
 </div>
+<div class="md-3">
+    <label class="form-label" for="Curr-image">Current Image!</label>
+    <img src="<%=EntireListning.image.path%> " class="mb-3 form-control" style="width: 200px;" id="Curr-image"/>
+</div>
 <div>
-    <label for="image"  class="form-label">Enter Your Image URL!</label>
-    <input id="image" name="image" type="text" value="<%= EntireListning.image %>" class="form-control">
+    <label for="image"  class="form-label">Upload An Image</label>
+    <input id="image" name="image" type="file" value="<%= EntireListning.image %>" class="form-control">
      <div class="valid-feedback">Okay!</div>
     <div class="invalid-feedback">Please Enetr An Valid Image URL</div>
 </div>
