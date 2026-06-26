@@ -5,12 +5,12 @@
       <h2 class="fw-bold mb-3"><%= doc.title %></h2>
     <!-- Image Banner -->
     <div class="listing-image mb-4">
-      <img src="<%= doc.image %>" alt="Listing Image" class="img-fluid rounded shadow-sm">
+      <img src="<%= doc.image.path %>" alt="Listing Image" class="img-fluid rounded shadow-sm">
     </div>
 
     <!-- Details Card -->
      <div class="listing-details bg-white p-4 rounded shadow-sm">
-      <p class="text-muted mb-4"><b>Hosted By :</b><%= doc.owner.username %></p>
+      <p class="text-muted mb-4"><b>Hosted By:</b><%= doc.owner.username %></p>
 
     <div class="listing-details bg-white p-4 rounded shadow-sm">
       <p class="text-muted mb-4"><%= doc.description %></p>
@@ -35,21 +35,68 @@
      
     <hr>
     <%if(currUser && currUser.length!=0){%>
- <div ><h2>Leave your Review!</h2>
-   <form action="/listings/<%=doc._id%>/reviews" method="post" novalidate class="needs-validation">
+ <div class="review">
+  <h2>Leave your Review!</h2>
+
+  <form action="/listings/<%= doc._id %>/reviews"
+        method="post"
+        novalidate
+        class="needs-validation">
+
     <div class="reviewform">
-      <div> <label for="cm" style="padding-top: 10px;" class="form-label">Comment:</label>
-        <textarea name="comment" class="form-control" required></textarea>
-         <div class="valid-feedback">Looks Good!</div>
-    <div class="invalid-feedback">Enter An Valid Comment!</div>
-   </div>
-   
-  <div><div><label for="rating" class="form-label" style="margin-top: 6px;">Give Rating:</label></div>
-    <input type="range" min="1" max="5" value="1" id="rating" name="rating" class="rating" required>
-    <span id="value">1</span></div>
-    </div>
-    <div style="display: flex; justify-content: center;margin-top: 15px; margin-bottom:15px" ;> <button class="btn btn-outline-dark px-4">Submit</button></div>
-</form>
+
+      <div>
+        <label for="cm" class="form-label" style="padding-top:10px;">
+          Comment:
+        </label>
+
+        <textarea
+          id="cm"
+          name="comment"
+          class="form-control"
+          required></textarea>
+
+        <div class="valid-feedback">
+          Looks Good!
+        </div>
+
+        <div class="invalid-feedback">
+          Enter A Valid Comment!
+        </div>
+      </div>
+
+      <fieldset class="starability-slot">
+        <legend>Give rating:</legend>
+
+        <input type="radio" id="no-rate" class="input-no-rate"
+               name="rating" value="0" checked />
+
+        <input type="radio" id="first-rate1" name="rating" value="1" />
+        <label for="first-rate1">1 star</label>
+
+        <input type="radio" id="first-rate2" name="rating" value="2" />
+        <label for="first-rate2">2 stars</label>
+
+        <input type="radio" id="first-rate3" name="rating" value="3" />
+        <label for="first-rate3">3 stars</label>
+
+        <input type="radio" id="first-rate4" name="rating" value="4" />
+        <label for="first-rate4">4 stars</label>
+
+        <input type="radio" id="first-rate5" name="rating" value="5" />
+        <label for="first-rate5">5 stars</label>
+      </fieldset>
+
+      <div style="display:flex; justify-content:center; margin:15px 0;">
+        <button class="btn btn-outline-dark px-4">
+          Submit
+        </button>
+      </div>
+
+    </div> <!-- reviewform -->
+
+  </form>
+</div>
    <% }%>
     
 
@@ -70,16 +117,16 @@
   <% for( let i =0 ; i<doc.reviews.length;i++){ %>
    <div class="card" style="width: 20rem;">
   <div class="card-header">
-     Review by @<%=doc.reviews[i].author.username%>
+     Review by <b>@<%=doc.reviews[i].author.username%></b>
   </div>
   <div class="card-body">
     <figure>
     
-        <p><%=doc.reviews[i].comment%></p>
+        <p class="comment"><i>"<%=doc.reviews[i].comment%>"</i></p>
      
-      <figcaption class="blockquote-footer">
-        <%= doc.reviews[i].rating %> Star Rating
-      </figcaption>
+    <p class="starability-result card-text" data-rating="<%=doc.reviews[i].rating%>">
+    Rated: 3
+  </p>
     </figure>
   </div>
   <% if(currUser && currUser._id.equals(doc.reviews[i].author._id)){%>

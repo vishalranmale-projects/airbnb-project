@@ -10,9 +10,8 @@ let ListingScheme = new mongoose.Schema({
         required:true
     },
     image:{
-     type:String,
-     deafault:"https://thumbs.dreamstime.com/b/beautiful-rain-forest-ang-ka-nature-trail-doi-inthanon-national-park-thailand-36703721.jpg",
-     set:(v)=> v===""? "https://thumbs.dreamstime.com/b/beautiful-rain-forest-ang-ka-nature-trail-doi-inthanon-national-park-thailand-36703721.jpg" : v,
+       path:String,
+       filename:String,
     },
     price:{
         type:Number,

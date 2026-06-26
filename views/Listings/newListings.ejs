@@ -2,7 +2,7 @@
 
   <br>
   <br>
-   <form action="/Listings/New?_method=post" method="post"   class="NewListing needs-validation" novalidate>
+   <form action="/Listings/New?_method=post" method="post"   class="NewListing needs-validation" novalidate enctype="multipart/form-data">
   <div class="mb-3">
     <label for="title" class="form-label">title</label>
     <input placeholder="Enter Title" type="text" class="form-control" id="title" aria-describedby="emailHelp" name="title" required>
@@ -16,10 +16,10 @@
     <div class="invalid-feedback">Enter An Valid Description!</div>
   </div>
   <div class="mb-3">
-    <label for="image" class="form-label">image</label>
-    <input  placeholder="Enter Img URL" type="text" class="form-control" id="image" name="image" required>
+    <label for="image" class="form-label">Upload An Listing image </label>
+    <input  placeholder="Enter Img URL" type="file" class="form-control" id="image" name="image" required>
     <div class="valid-feedback">Looks Good!</div>
-    <div class="invalid-feedback">image Link is Mandatory!</div>
+    <div class="invalid-feedback">image is Mandatory!</div>
   </div>
    <div class="mb-3">
     <label for="price" class="form-label">price</label>

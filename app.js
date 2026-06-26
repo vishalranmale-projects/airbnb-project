@@ -1,3 +1,7 @@
+if(process.env.NODE_ENV!="production"){
+const dotenv = require("dotenv");
+dotenv.config();
+}
 const express = require("express");
 const app = express();
 const path = require("path");
@@ -13,6 +17,9 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const passportLocalStartegy = require("passport-local");
 const user = require("./models/user.js");
+const {signupform,signup,signinform,signin,logout}  = require("./controllers/usercontroller.js");
+const userRoutes = require("./routes/userRoutes.js");
+const multer = require("multer");
 const sessionOptions = {
     secret:"Secret Code",
     resave:false,
@@ -61,69 +68,7 @@ app.use("/Listings",listingRoutes);
 // Middle Ware To routs An review Model Requests
 app.use("/listings/:listing_id",reviesRoutes);
 // Route To Render An Form To Get An New User Infro
-app.get("/signup",(req,resp)=>{
-    resp.render("./users/signup.ejs");
-})
-app.post("/signup",async(req,resp,next)=>{
-    try{
-         let user1 = new user({
-        username:req.body.username,
-        email_id:req.body.email_id,
-    });
-    const res =await user.register(user1,req.body.password);
-    req.login(res,(err)=>{
-        if(err){
-            next(err);
-        }
-        else{
-            req.flash("sucess","Welcome To Wonderlust");
-            resp.redirect("/Listings");
-        }
-    });
-    }
-    catch(err){
-        req.flash("error",err.message)
-        resp.redirect("/signup");
-    }
-    
-   
-});
-// Route To Render An Sign-in Form
-app.get("/signin",(req,resp)=>{
-
-
- resp.render("./users/signin.ejs");
-
-
-})
-// Route To Authenticate An user Data For An Signup
-app.post("/signin",passport.authenticate("local",{
-    failureRedirect:"/signin",
-    failureFlash:true
-}),(req,resp)=>{
-    req.flash("sucess","Welcome To Wonderlust!")
-    let url = req.session.redirectUrl;
-    console.log(req.session);
-   if(resp.locals.redirectUrl && resp.locals.redirectUrl.length!=0){
-    resp.redirect(`${ resp.locals.redirectUrl}`);
-   }
-   else{
-    resp.redirect("/Listings");
-   }
-})
-// Route To Logout An Current User
-app.get("/logout",(req,resp,next)=>{
-    req.logOut((err)=>{
-        if(err){
-            req.flash("error",err.message);
-            next(err);
-        }
-        else{
-            req.flash("sucess","logout Sucessfully");
-            resp.redirect("/Listings");
-        }
-    })
-})
+app.use("/",userRoutes);
 // Route for if An Request is Not Matched With An All The Following Routes
 app.use((req,resp,next)=>{
     next(new ExpressError("Check Your API Request For This No One Route is Defined!",403));

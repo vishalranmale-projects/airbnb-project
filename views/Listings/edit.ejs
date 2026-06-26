@@ -1,7 +1,7 @@
 <% layout("layouts/boilerplate") %>
 <br>
 <br>
-     <form action="/Listings/<%=EntireListning._id %>?_method=put" method="POST" class="NewListing needs-validation" novalidate>
+     <form action="/Listings/<%=EntireListning._id %>?_method=put" method="POST" class="NewListing needs-validation" novalidate enctype="multipart/form-data">
         <div>
     <label for="title"  class="form-label">Update Your Title!</label>
     <input id="title" name="title" type="text" value="<%= EntireListning.title %>" class="form-control" required>

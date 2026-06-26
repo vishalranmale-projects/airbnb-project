@@ -5,8 +5,10 @@ let reviewSchema = mongoose.Schema({
     comment:String,
     rating:{
         type:Number,
-        min:1,
-        max:5
+         default:1,
+        min:0,
+        max:5,
+       
     },
     created_At:{
         type:Date,
