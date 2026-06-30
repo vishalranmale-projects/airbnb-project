@@ -34,7 +34,7 @@ let signin = (req,resp)=>{
     req.flash("sucess","Welcome To Wonderlust!")
     let url = req.session.redirectUrl;
    if(resp.locals.redirectUrl && resp.locals.redirectUrl.length!=0){
-    resp.redirect(`${ resp.locals.redirectUrl}`);
+      return resp.redirect(`${ resp.locals.redirectUrl}`);
    }
    else{
     resp.redirect("/Listings");
