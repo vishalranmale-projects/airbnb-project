@@ -1,6 +1,68 @@
 <% layout("layouts/boilerplate") %>
- <h1 style="margin-left: 5rem;">All Listings</h1>
-<div class="OuterDiv">
+ <!-- <h1 style="margin-left: 5rem;">All Listings</h1> -->
+  
+  <div id="filters">
+    <a href="/Listings/individual/categorey?categoery=trending" style="text-decoration: none; color: inherit;">
+      <div class="filter">
+    <div class=" filterimg"> <i class="fa-solid fa-fire"></i></div>
+      <p class="filtertext">Trending</p>
+    </div>
+    </a>
+    <a href="/Listings/individual/categorey?categoery=farms" style="text-decoration: none; color: inherit;">
+    <div class="filter">
+      <div class="filterimg"><i class="fa-solid fa-building-wheat filterimg"></i></div>
+      <p class="filtertext">farms</p>
+    </div>
+  </a>
+      <a href="/Listings/individual/categorey?categoery=rooms" style="text-decoration: none; color: inherit;">
+     <div class="filter">
+      <div class="filterimg"><i class="fa-solid fa-bed filterimg"></i></div>
+      <p class="filtertext">rooms</p>
+    </div>
+    </a>
+    <!-- <a href="/Listings/individual/categorey?categoery=iconic cities" style="text-decoration: none; color: inherit;"> -->
+     <div class="filter">
+     <div class="filterimg"><i class="fa-solid fa-mountain-city" ></i></div>
+      <p class="filtertext">Cities</p>
+    </div>
+    <!-- </a> -->
+        <a href="/Listings/individual/categorey?categoery=mountains" style="text-decoration: none; color: inherit;">
+     <div class="filter">
+      <div class="filterimg"><i class="fa-solid fa-mountain filterimg"></i></div>
+      <p class="filtertext">Mountains</p>
+    </div>
+    </a>
+        <a href="/Listings/individual/categorey?categoery=castles" style="text-decoration: none; color: inherit;">
+     <div class="filter">
+      <div class="filterimg"><i class="fa-brands fa-fort-awesome filterimg"></i></div>
+      <p class="filtertext">Castals</p>
+    </div>
+    </a>
+        <a href="/Listings/individual/categorey?categoery=arctic" style="text-decoration: none; color: inherit;">
+     <div class="filter">
+      <div class="filterimg"><i class="fa-solid fa-snowflake filterimg"></i></div>
+      <p class="filtertext">Arctic</p>
+    </div>
+    </a>
+        <a href="/Listings/individual/categorey?categoery=camping" style="text-decoration: none; color: inherit;">
+     <div class="filter">
+      <div class="filterimg"><i class="fa-solid fa-campground filterimg"></i></div>
+      <p class="filtertext">Camping</p>
+    </div>
+    </a>
+        <a href="/Listings/individual/categorey?categoery=trending" style="text-decoration: none; color: inherit;">
+    <div class="filter">
+    <div class="filterimg"> <i class="fa-solid fa-cow filterimg"></i></div>
+      <p class="filtertext">Farms</p>
+    </div>
+    </a>
+    <div class="form-check form-switch filter tax">
+  <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault" style="accent-color: black !important;">
+  <label class="form-check-label" for="switchCheckDefault">Display total after tax</label>
+</div>
+  </div>
+ 
+<div class="OuterDiv container">
   <% allListings.forEach(listing => { %>
     <a class="listing-link" href="/Listings/<%=listing._id%>" style="text-decoration: none !important">
     <div class="listing-card" style="width: 20rem;">
@@ -8,10 +70,23 @@
  
   <div class="card-body">
     <p class="card-text" style="text-decoration: none !important;"><b><%=listing.title%></b></p>
-    <p class="card-text" style="text-decoration: none !important;">&#8377;<%=listing.price.toLocaleString("en-IN")%>/night</p>
+    <p class="card-text" style="text-decoration: none !important;">&#8377;<%=listing.price.toLocaleString("en-IN")%>/night &nbsp;&nbsp <i class="taxinfo">+18%GST</i></p>
   </div>
-  
 </div></a>
   <% }) %>
 </div>
 
+<script>
+  let taxinfo = document.getElementsByClassName("taxinfo");
+let priceToggle = document.getElementById("switchCheckDefault");
+
+priceToggle.addEventListener("click", () => {
+    for (let i = 0; i < taxinfo.length; i++) {
+        if (getComputedStyle(taxinfo[i]).display === "none") {
+            taxinfo[i].style.display = "inline";
+        } else {
+            taxinfo[i].style.display = "none";
+        }
+    }
+});
+</script>
