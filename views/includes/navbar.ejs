@@ -1,37 +1,91 @@
- <nav class="navbar navbar-expand-lg bg-body-light border-bottom sticky-top">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/"><i class="fa-solid fa-compass"></i></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+<%
+/*
+  NAVBAR — WonderLust
+  FIX: Only ONE #mainNavbar collapse div.
+  Search bar shown in center on desktop, full-width inside dropdown on mobile.
+*/
+%>
+<nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top" id="mainNav">
+  <div class="container-fluid px-3 px-md-4">
+
+    <!-- ── Logo ── -->
+    <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="/Listings">
+      <i class="fa-solid fa-compass"></i>
+
+    </a>
+   <ul class="navbar-nav ms-lg-auto align-items-lg-center mt-2 mt-lg-0 d-none d-lg-flex">
+        <li class="nav-item">
+          <a class="nav-link nav-action-link" href="/Listings">Explore</a>
+        </li>
+        </ul>
+    
+
+    <!-- ── Search bar (desktop — hidden on mobile, lives outside collapse) ── -->
+    <form class="search d-flex d-none d-lg-flex flex-coloumn flex-lg-row gap-2 mx-lg-3 my-2 my-lg-0" action="/Listings/search" method="post" style="margin-left: 14rem !important;">
+        <input
+          type="text"
+          name="title"
+          class="form-control me-2 inp"
+          placeholder="Search destinations"
+          autocomplete="off"
+        >
+        <button class="btn searchbtn" type="submit">
+           Search
+        </button>
+     
+    </form>
+
+    <!-- ── Hamburger ── -->
+    <button
+      class="navbar-toggler border-0 shadow-none"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#mainNavbar"
+      aria-controls="mainNavbar"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
+    <div class="collapse navbar-collapse" id="mainNavbar">
+
+      <!-- Search bar inside collapse (mobile only) -->
+      <form class="d-lg-none my-2 nav-search w-100" action="/Listings" method="get">
+        <div class="input-group nav-search-group">
+          <input
+            type="text"
+            name="q"
+            class="form-control nav-search-input"
+            placeholder="Search destinations"
+            autocomplete="off"
+          >
+          <button class="btn nav-search-btn" type="submit">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </div>
+      </form>
+
+      <!-- Nav links — right-aligned on desktop, stacked on mobile -->
+      <ul class="navbar-nav ms-lg-auto align-items-lg-center mt-2 mt-lg-0">
         <li class="nav-item">
-          <a class="nav-link "  href="http://localhost:3000/Listings">Home</a>
+          <a class="nav-link nav-action-link" href="/Listings/New">Airbnb your home</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="http://localhost:3000/Listings">All Listings</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link"  href="/Listings/New">Add New Listing!</a>
-        </li>
+
+        <% if (currUser === undefined) { %>
+          <li class="nav-item">
+            <a class="nav-link fw-semibold" href="/signup">Sign Up</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/signin">Log In</a>
+          </li>
+        <% } else { %>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">Log Out</a>
+          </li>
+        <% } %>
       </ul>
-    </div>
-    <div class="collapse navbar-collapse" style="justify-content: end;" id="navbarNav">
-      <ul class="navbar-nav">
-         <li class="nav-item">
-          <%if(currUser ===undefined){%>
- <a class="nav-link" href="http://localhost:3000/signup">Sign Up</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="http://localhost:3000/signin">Log in</a>
-        </li>
-        <%  } else{%>
-        <li class="nav-item">
-          <a class="nav-link"  href="http://localhost:3000/logout">Log out</a>
-        </li>
-        <%}%>
-      </ul>
-    </div>
+
+    </div><!-- /#mainNavbar (ONE collapse div — end) -->
+
   </div>
 </nav>
