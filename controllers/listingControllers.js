@@ -3,16 +3,26 @@ const flash = require("connect-flash");
 const {isloggedIn} = require("../middleware.js");
 const {isOwner} = require("../middleware.js");
 const user = require("../models/user.js");
-const {validateListing} = require("../middleware.js")
+const {validateListing} = require("../middleware.js");
+const mbxgeoCoding = require("@mapbox/mapbox-sdk/services/geocoding");
+const mapToken = process.env.MAP_TOKEN;
+const geocodingClient = mbxgeoCoding({accessToken:mapToken});
+
 let indexController  = async(req,resp,next)=>{
     let id = req.params.id;
     let doc = await listings.findOne({_id:id});
     if(doc){
-
        doc = await doc.populate({path:"reviews",populate:{
         path:"author"
        }})
        doc = await doc.populate("owner");
+     let output= await  geocodingClient.forwardGeocode({
+        query:`${doc.location}`,
+        limit:2
+       }).send()
+     
+      resp.locals.longitude = output.body.features[0].geometry.coordinates[0];
+      resp.locals.latitude = output.body.features[0].geometry.coordinates[1];
     resp.render("./Listings/individualListing.ejs",{doc});
     }
     else{
@@ -47,9 +57,10 @@ let newListing = async(req,resp,next)=>{
         price:req.body.price,
         location:req.body.location,
         country:req.body.country,
-        owner:req.user._id
+        owner:req.user._id,
+        categorey:req.body.categorey,
     })
-    console.log(req.file);
+   
    await newListing.save().then(()=>{
     console.log("Data Inserted Sucessfully!");
    });
