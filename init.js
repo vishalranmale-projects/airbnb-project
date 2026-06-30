@@ -1,815 +1,744 @@
 const mongoose = require("mongoose");
 const listings = require("./models/Listing.js");
-mongoose.connect("mongodb://127.0.0.1:27017/wonderlust");
-let  initData = [
-  {
-    "title": "Boutique Hotel Room in Hanoi",
-    "description": "A unique stay in Hanoi that offers privacy, comfort, and a strong connection to the local landscape.",
-    "image": { "path": "https://picsum.photos/seed/listing1/800/500", "filename": "listingimage" },
-    "price": 7500,
-    "location": "Hanoi",
-    "country": "Vietnam"
-  },
-  {
-    "title": "Beachfront Villa in Bali",
-    "description": "Wake up to the sound of waves in this stunning beachfront villa surrounded by lush tropical gardens.",
-    "image": { "path": "https://picsum.photos/seed/listing2/800/500", "filename": "listingimage" },
-    "price": 12000,
-    "location": "Bali",
-    "country": "Indonesia"
-  },
-  {
-    "title": "Cozy Mountain Cabin in Shimla",
-    "description": "A peaceful wooden cabin nestled in the pine forests of Shimla with breathtaking Himalayan views.",
-    "image": { "path": "https://picsum.photos/seed/listing3/800/500", "filename": "listingimage" },
-    "price": 5500,
-    "location": "Shimla",
-    "country": "India"
-  },
-  {
-    "title": "Modern Apartment in Tokyo",
-    "description": "A sleek, minimalist apartment in the heart of Tokyo, steps away from metro stations and local markets.",
-    "image": { "path": "https://picsum.photos/seed/listing4/800/500", "filename": "listingimage" },
-    "price": 9800,
-    "location": "Tokyo",
-    "country": "Japan"
-  },
-  {
-    "title": "Lakeside Cottage in Interlaken",
-    "description": "A charming Swiss cottage by the lake with stunning views of the Alps and access to hiking trails.",
-    "image": { "path": "https://picsum.photos/seed/listing5/800/500", "filename": "listingimage" },
-    "price": 15000,
-    "location": "Interlaken",
-    "country": "Switzerland"
-  },
-  {
-    "title": "Historic Riad in Marrakech",
-    "description": "An authentic Moroccan riad with a private courtyard, mosaic tiles, and traditional decor in the old medina.",
-    "image": { "path": "https://picsum.photos/seed/listing6/800/500", "filename": "listingimage" },
-    "price": 8200,
-    "location": "Marrakech",
-    "country": "Morocco"
-  },
-  {
-    "title": "Cliffside Suite in Santorini",
-    "description": "Perched on the cliffs of Santorini, this suite offers iconic caldera views and a private plunge pool.",
-    "image": { "path": "https://picsum.photos/seed/listing7/800/500", "filename": "listingimage" },
-    "price": 18500,
-    "location": "Santorini",
-    "country": "Greece"
-  },
-  {
-    "title": "Jungle Treehouse in Costa Rica",
-    "description": "An elevated treehouse experience surrounded by the sounds of the jungle with a view of the rainforest canopy.",
-    "image": { "path": "https://picsum.photos/seed/listing8/800/500", "filename": "listingimage" },
-    "price": 11000,
-    "location": "Manuel Antonio",
-    "country": "Costa Rica"
-  },
-  {
-    "title": "Luxury Penthouse in Dubai",
-    "description": "Experience the Dubai skyline from this ultra-luxury penthouse with a rooftop terrace and infinity pool access.",
-    "image": { "path": "https://picsum.photos/seed/listing9/800/500", "filename": "listingimage" },
-    "price": 35000,
-    "location": "Dubai",
-    "country": "UAE"
-  },
-  {
-    "title": "Rustic Farmhouse in Tuscany",
-    "description": "A beautifully restored stone farmhouse in the rolling hills of Tuscany with a vineyard and olive grove.",
-    "image": { "path": "https://picsum.photos/seed/listing10/800/500", "filename": "listingimage" },
-    "price": 13500,
-    "location": "Tuscany",
-    "country": "Italy"
-  },
-  {
-    "title": "Surfer's Bungalow in Byron Bay",
-    "description": "A laid-back bungalow just 200 metres from the beach, perfect for surfers and sun-seekers alike.",
-    "image": { "path": "https://picsum.photos/seed/listing11/800/500", "filename": "listingimage" },
-    "price": 7800,
-    "location": "Byron Bay",
-    "country": "Australia"
-  },
-  {
-    "title": "Heritage Haveli in Jaipur",
-    "description": "Stay in a centuries-old haveli with intricately carved architecture, royal decor, and rooftop dining.",
-    "image": { "path": "https://picsum.photos/seed/listing12/800/500", "filename": "listingimage" },
-    "price": 6500,
-    "location": "Jaipur",
-    "country": "India"
-  },
-  {
-    "title": "Cosy Studio in Amsterdam",
-    "description": "A charming canal-facing studio in the heart of Amsterdam, ideal for couples exploring the city.",
-    "image": { "path": "https://picsum.photos/seed/listing13/800/500", "filename": "listingimage" },
-    "price": 8900,
-    "location": "Amsterdam",
-    "country": "Netherlands"
-  },
-  {
-    "title": "Safari Lodge in Serengeti",
-    "description": "An exclusive lodge on the edge of the Serengeti offering guided game drives and stunning sunset views.",
-    "image": { "path": "https://picsum.photos/seed/listing14/800/500", "filename": "listingimage" },
-    "price": 28000,
-    "location": "Serengeti",
-    "country": "Tanzania"
-  },
-  {
-    "title": "Glass Cabin in Lapland",
-    "description": "Sleep under the northern lights in a glass-roofed cabin surrounded by snowy Finnish wilderness.",
-    "image": { "path": "https://picsum.photos/seed/listing15/800/500", "filename": "listingimage" },
-    "price": 22000,
-    "location": "Rovaniemi",
-    "country": "Finland"
-  },
-  {
-    "title": "City Loft in New York",
-    "description": "A trendy industrial loft in Manhattan with exposed brick, large windows, and rooftop access.",
-    "image": { "path": "https://picsum.photos/seed/listing16/800/500", "filename": "listingimage" },
-    "price": 16500,
-    "location": "New York",
-    "country": "USA"
-  },
-  {
-    "title": "Desert Camp in Wadi Rum",
-    "description": "Spend a night under the stars in a luxurious Bedouin tent in the red desert of Wadi Rum.",
-    "image": { "path": "https://picsum.photos/seed/listing17/800/500", "filename": "listingimage" },
-    "price": 9500,
-    "location": "Wadi Rum",
-    "country": "Jordan"
-  },
-  {
-    "title": "Houseboat in Kerala",
-    "description": "Drift along the tranquil backwaters of Kerala on a traditional wooden houseboat with a private chef.",
-    "image": { "path": "https://picsum.photos/seed/listing18/800/500", "filename": "listingimage" },
-    "price": 8000,
-    "location": "Alleppey",
-    "country": "India"
-  },
-  {
-    "title": "Vineyard Cottage in Cape Town",
-    "description": "A cozy cottage nestled in a working vineyard at the foot of Table Mountain with wine tasting included.",
-    "image": { "path": "https://picsum.photos/seed/listing19/800/500", "filename": "listingimage" },
-    "price": 9200,
-    "location": "Cape Town",
-    "country": "South Africa"
-  },
-  {
-    "title": "Overwater Bungalow in Maldives",
-    "description": "A dreamy overwater bungalow with a glass floor, direct ocean access, and crystal-clear lagoon views.",
-    "image": { "path": "https://picsum.photos/seed/listing20/800/500", "filename": "listingimage" },
-    "price": 42000,
-    "location": "Malé Atoll",
-    "country": "Maldives"
-  },
-  {
-    "title": "Artist's Studio in Prague",
-    "description": "A bohemian studio apartment in Prague's old town, decorated with local artwork and vintage furniture.",
-    "image": { "path": "https://picsum.photos/seed/listing21/800/500", "filename": "listingimage" },
-    "price": 6200,
-    "location": "Prague",
-    "country": "Czech Republic"
-  },
-  {
-    "title": "Ski Chalet in Whistler",
-    "description": "A luxurious ski-in ski-out chalet in Whistler with a hot tub, fireplace, and mountain views.",
-    "image": { "path": "https://picsum.photos/seed/listing22/800/500", "filename": "listingimage" },
-    "price": 25000,
-    "location": "Whistler",
-    "country": "Canada"
-  },
-  {
-    "title": "Boutique Inn in Kyoto",
-    "description": "A traditional Japanese inn (ryokan) in Kyoto with tatami rooms, yukata robes, and a zen garden.",
-    "image": { "path": "https://picsum.photos/seed/listing23/800/500", "filename": "listingimage" },
-    "price": 11500,
-    "location": "Kyoto",
-    "country": "Japan"
-  },
-  {
-    "title": "Colonial Mansion in Cartagena",
-    "description": "A magnificently restored colonial mansion in the walled city of Cartagena with a private pool.",
-    "image": { "path": "https://picsum.photos/seed/listing24/800/500", "filename": "listingimage" },
-    "price": 14500,
-    "location": "Cartagena",
-    "country": "Colombia"
-  },
-  {
-    "title": "Riverside Tent in Rishikesh",
-    "description": "A glamping tent set on the banks of the Ganges in Rishikesh — perfect for yoga retreats and rafting.",
-    "image": { "path": "https://picsum.photos/seed/listing25/800/500", "filename": "listingimage" },
-    "price": 4500,
-    "location": "Rishikesh",
-    "country": "India"
-  },
-  {
-    "title": "Beachside Cabana in Phuket",
-    "description": "A private cabana steps from the beach in Phuket with a hammock, outdoor shower, and sea breeze.",
-    "image": { "path": "https://picsum.photos/seed/listing26/800/500", "filename": "listingimage" },
-    "price": 8500,
-    "location": "Phuket",
-    "country": "Thailand"
-  },
-  {
-    "title": "Mountain Chalet in Innsbruck",
-    "description": "A classic Alpine chalet in Innsbruck with wooden interiors, ski access, and panoramic mountain views.",
-    "image": { "path": "https://picsum.photos/seed/listing27/800/500", "filename": "listingimage" },
-    "price": 17000,
-    "location": "Innsbruck",
-    "country": "Austria"
-  },
-  {
-    "title": "Eco Lodge in the Amazon",
-    "description": "An off-grid eco lodge deep in the Amazon rainforest, accessible by canoe with guided jungle treks.",
-    "image": { "path": "https://picsum.photos/seed/listing28/800/500", "filename": "listingimage" },
-    "price": 13000,
-    "location": "Manaus",
-    "country": "Brazil"
-  },
-  {
-    "title": "Penthouse in Barcelona",
-    "description": "A stylish penthouse in Barcelona's Eixample district with a rooftop terrace and views of Sagrada Familia.",
-    "image": { "path": "https://picsum.photos/seed/listing29/800/500", "filename": "listingimage" },
-    "price": 19000,
-    "location": "Barcelona",
-    "country": "Spain"
-  },
-  {
-    "title": "Cliffside Cottage in Amalfi",
-    "description": "A whitewashed cottage clinging to the cliffs of the Amalfi Coast with terraced lemon gardens below.",
-    "image": { "path": "https://picsum.photos/seed/listing30/800/500", "filename": "listingimage" },
-    "price": 16000,
-    "location": "Amalfi",
-    "country": "Italy"
-  },
-  {
-    "title": "Heritage Bungalow in Galle",
-    "description": "A beautifully preserved Dutch colonial bungalow inside the Galle Fort with antique furnishings.",
-    "image": { "path": "https://picsum.photos/seed/listing31/800/500", "filename": "listingimage" },
-    "price": 7200,
-    "location": "Galle",
-    "country": "Sri Lanka"
-  },
-  {
-    "title": "Floating Cabin in Norway",
-    "description": "A magical floating cabin on a fjord in Norway, surrounded by steep cliffs and glassy water.",
-    "image": { "path": "https://picsum.photos/seed/listing32/800/500", "filename": "listingimage" },
-    "price": 20000,
-    "location": "Bergen",
-    "country": "Norway"
-  },
-  {
-    "title": "Desert Villa in Rajasthan",
-    "description": "A private desert villa near the Thar Desert dunes with camel safaris and folk music evenings.",
-    "image": { "path": "https://picsum.photos/seed/listing33/800/500", "filename": "listingimage" },
-    "price": 7800,
-    "location": "Jaisalmer",
-    "country": "India"
-  },
-  {
-    "title": "Converted Windmill in Mykonos",
-    "description": "A one-of-a-kind stay inside a converted windmill in Mykonos with whitewashed walls and sea views.",
-    "image": { "path": "https://picsum.photos/seed/listing34/800/500", "filename": "listingimage" },
-    "price": 14000,
-    "location": "Mykonos",
-    "country": "Greece"
-  },
-  {
-    "title": "Bamboo House in Ubud",
-    "description": "An architecturally stunning bamboo house in Ubud's rice fields with open-air design and bird sounds.",
-    "image": { "path": "https://picsum.photos/seed/listing35/800/500", "filename": "listingimage" },
-    "price": 9000,
-    "location": "Ubud",
-    "country": "Indonesia"
-  },
-  {
-    "title": "Lighthouse Retreat in Ireland",
-    "description": "Stay inside a working lighthouse on Ireland's Wild Atlantic Way with dramatic cliff and ocean views.",
-    "image": { "path": "https://picsum.photos/seed/listing36/800/500", "filename": "listingimage" },
-    "price": 12500,
-    "location": "Galway",
-    "country": "Ireland"
-  },
-  {
-    "title": "Luxury Tent in Maasai Mara",
-    "description": "A tented camp in the heart of Maasai Mara where the Big Five roam freely beyond your canvas walls.",
-    "image": { "path": "https://picsum.photos/seed/listing37/800/500", "filename": "listingimage" },
-    "price": 24000,
-    "location": "Maasai Mara",
-    "country": "Kenya"
-  },
-  {
-    "title": "Rooftop Apartment in Lisbon",
-    "description": "A sunny apartment in Lisbon's Alfama district with a terrace, azulejo tiles, and fado music nearby.",
-    "image": { "path": "https://picsum.photos/seed/listing38/800/500", "filename": "listingimage" },
-    "price": 8400,
-    "location": "Lisbon",
-    "country": "Portugal"
-  },
-  {
-    "title": "Cave Hotel in Cappadocia",
-    "description": "Sleep inside a carved cave suite in Cappadocia, with hot air balloons floating past your window at dawn.",
-    "image": { "path": "https://picsum.photos/seed/listing39/800/500", "filename": "listingimage" },
-    "price": 11200,
-    "location": "Göreme",
-    "country": "Turkey"
-  },
-  {
-    "title": "Boho Beach House in Tulum",
-    "description": "A rustic bohemian beach house in Tulum with a hammock, cenote access, and candlelit jungle paths.",
-    "image": { "path": "https://picsum.photos/seed/listing40/800/500", "filename": "listingimage" },
-    "price": 13800,
-    "location": "Tulum",
-    "country": "Mexico"
-  },
-  {
-    "title": "Island Cottage in Mull",
-    "description": "A remote stone cottage on the Scottish island of Mull with wild coastline, deer, and no Wi-Fi.",
-    "image": { "path": "https://picsum.photos/seed/listing41/800/500", "filename": "listingimage" },
-    "price": 8000,
-    "location": "Isle of Mull",
-    "country": "Scotland"
-  },
-  {
-    "title": "Colonial Guesthouse in Hoi An",
-    "description": "A French colonial guesthouse in Hoi An's lantern-lit ancient town, steps from the Thu Bon River.",
-    "image": { "path": "https://picsum.photos/seed/listing42/800/500", "filename": "listingimage" },
-    "price": 5800,
-    "location": "Hoi An",
-    "country": "Vietnam"
-  },
-  {
-    "title": "Forest Cabin in Banff",
-    "description": "A secluded log cabin in Banff National Park surrounded by pine forests, elk, and mountain air.",
-    "image": { "path": "https://picsum.photos/seed/listing43/800/500", "filename": "listingimage" },
-    "price": 14200,
-    "location": "Banff",
-    "country": "Canada"
-  },
-  {
-    "title": "Seaside Apartment in Dubrovnik",
-    "description": "A sun-drenched apartment inside the old city walls of Dubrovnik with a balcony overlooking the Adriatic.",
-    "image": { "path": "https://picsum.photos/seed/listing44/800/500", "filename": "listingimage" },
-    "price": 12800,
-    "location": "Dubrovnik",
-    "country": "Croatia"
-  },
-  {
-    "title": "Plantation House in Kerala",
-    "description": "A colonial-era plantation bungalow amid spice and tea estates in the Munnar hills of Kerala.",
-    "image": { "path": "https://picsum.photos/seed/listing45/800/500", "filename": "listingimage" },
-    "price": 6000,
-    "location": "Munnar",
-    "country": "India"
-  },
-  {
-    "title": "Nordic Cabin by the Lake",
-    "description": "A minimalist Scandinavian cabin on a private lake in Sweden with a sauna and canoe included.",
-    "image": { "path": "https://picsum.photos/seed/listing46/800/500", "filename": "listingimage" },
-    "price": 10500,
-    "location": "Dalarna",
-    "country": "Sweden"
-  },
-  {
-    "title": "Rooftop Suite in Istanbul",
-    "description": "A stunning suite with a rooftop terrace in Istanbul's Sultanahmet, overlooking the Blue Mosque and Bosphorus.",
-    "image": { "path": "https://picsum.photos/seed/listing47/800/500", "filename": "listingimage" },
-    "price": 10200,
-    "location": "Istanbul",
-    "country": "Turkey"
-  },
-  {
-    "title": "Glamping Pod in New Zealand",
-    "description": "A futuristic glamping pod in the rolling hills of Wanaka with floor-to-ceiling windows and stargazing decks.",
-    "image": { "path": "https://picsum.photos/seed/listing48/800/500", "filename": "listingimage" },
-    "price": 11800,
-    "location": "Wanaka",
-    "country": "New Zealand"
-  },
-  {
-    "title": "Treehouse Villa in Chiang Mai",
-    "description": "An elevated treehouse villa in the foothills of Chiang Mai, surrounded by jungle and elephant sanctuaries.",
-    "image": { "path": "https://picsum.photos/seed/listing49/800/500", "filename": "listingimage" },
-    "price": 7600,
-    "location": "Chiang Mai",
-    "country": "Thailand"
-  },
-  {
-    "title": "Converted Monastery in Bruges",
-    "description": "A beautifully converted medieval monastery in Bruges with vaulted ceilings, a courtyard, and canal views.",
-    "image": { "path": "https://picsum.photos/seed/listing50/800/500", "filename": "listingimage" },
-    "price": 13200,
-    "location": "Bruges",
-    "country": "Belgium"
-  },
-  {
-    "title": "Beachfront Shack in Goa",
-    "description": "A laid-back beachfront shack in North Goa with hammocks, seafood shacks next door, and nightly bonfires.",
-    "image": { "path": "https://picsum.photos/seed/listing51/800/500", "filename": "listingimage" },
-    "price": 4800,
-    "location": "Goa",
-    "country": "India"
-  },
-  {
-    "title": "Private Island Stay in Fiji",
-    "description": "An entire private island for rent in Fiji with butler service, coral reef snorkeling, and sunset sailing.",
-    "image": { "path": "https://picsum.photos/seed/listing52/800/500", "filename": "listingimage" },
-    "price": 85000,
-    "location": "Mamanuca Islands",
-    "country": "Fiji"
-  },
-  {
-    "title": "Boutique Hotel in Reykjavik",
-    "description": "A design-forward boutique hotel in downtown Reykjavik, perfect for northern lights tours and geothermal baths.",
-    "image": { "path": "https://picsum.photos/seed/listing53/800/500", "filename": "listingimage" },
-    "price": 15500,
-    "location": "Reykjavik",
-    "country": "Iceland"
-  },
-  {
-    "title": "Stilt House in Borneo",
-    "description": "A traditional stilt house over a river in Borneo's rainforest, with orangutan trekking and river fishing.",
-    "image": { "path": "https://picsum.photos/seed/listing54/800/500", "filename": "listingimage" },
-    "price": 8800,
-    "location": "Kota Kinabalu",
-    "country": "Malaysia"
-  },
-  {
-    "title": "Art Deco Apartment in Buenos Aires",
-    "description": "A grand Art Deco apartment in Palermo, Buenos Aires with high ceilings, tango studio nearby, and a balcony.",
-    "image": { "path": "https://picsum.photos/seed/listing55/800/500", "filename": "listingimage" },
-    "price": 7400,
-    "location": "Buenos Aires",
-    "country": "Argentina"
-  },
-  {
-    "title": "Hilltop Villa in Positano",
-    "description": "A terraced hilltop villa in Positano draped in bougainvillea with a private pool and sea panorama.",
-    "image": { "path": "https://picsum.photos/seed/listing56/800/500", "filename": "listingimage" },
-    "price": 21000,
-    "location": "Positano",
-    "country": "Italy"
-  },
-  {
-    "title": "Riverside Lodge in Manali",
-    "description": "A wooden riverside lodge in Manali along the Beas River with apple orchards and snow-capped peaks nearby.",
-    "image": { "path": "https://picsum.photos/seed/listing57/800/500", "filename": "listingimage" },
-    "price": 5200,
-    "location": "Manali",
-    "country": "India"
-  },
-  {
-    "title": "Tropical Bungalow in Krabi",
-    "description": "A secluded tropical bungalow in Krabi surrounded by limestone cliffs, turquoise water, and jungle.",
-    "image": { "path": "https://picsum.photos/seed/listing58/800/500", "filename": "listingimage" },
-    "price": 7000,
-    "location": "Krabi",
-    "country": "Thailand"
-  },
-  {
-    "title": "Minimalist Flat in Seoul",
-    "description": "A sleek minimalist flat in Gangnam, Seoul with smart home tech, floor heating, and city skyline views.",
-    "image": { "path": "https://picsum.photos/seed/listing59/800/500", "filename": "listingimage" },
-    "price": 9600,
-    "location": "Seoul",
-    "country": "South Korea"
-  },
-  {
-    "title": "Winery Estate in Bordeaux",
-    "description": "A grand estate in the Bordeaux wine region with cellar tours, vineyard walks, and château-style rooms.",
-    "image": { "path": "https://picsum.photos/seed/listing60/800/500", "filename": "listingimage" },
-    "price": 18000,
-    "location": "Bordeaux",
-    "country": "France"
-  },
-  {
-    "title": "Jungle Resort in Ella",
-    "description": "A hillside jungle resort in Ella, Sri Lanka with cascading waterfalls, tea fields, and infinity pools.",
-    "image": { "path": "https://picsum.photos/seed/listing61/800/500", "filename": "listingimage" },
-    "price": 8600,
-    "location": "Ella",
-    "country": "Sri Lanka"
-  },
-  {
-    "title": "Victorian Townhouse in London",
-    "description": "A fully restored Victorian townhouse in Notting Hill with a private garden and classic English interiors.",
-    "image": { "path": "https://picsum.photos/seed/listing62/800/500", "filename": "listingimage" },
-    "price": 22000,
-    "location": "London",
-    "country": "United Kingdom"
-  },
-  {
-    "title": "Mountaintop Cabin in Patagonia",
-    "description": "An isolated cabin atop the Patagonian steppe with howling winds, epic treks, and untouched wilderness.",
-    "image": { "path": "https://picsum.photos/seed/listing63/800/500", "filename": "listingimage" },
-    "price": 16000,
-    "location": "El Chaltén",
-    "country": "Argentina"
-  },
-  {
-    "title": "Garden Villa in Ubud",
-    "description": "A serene garden villa in the spiritual heart of Ubud with daily yoga classes and traditional cooking sessions.",
-    "image": { "path": "https://picsum.photos/seed/listing64/800/500", "filename": "listingimage" },
-    "price": 10000,
-    "location": "Ubud",
-    "country": "Indonesia"
-  },
-  {
-    "title": "Converted Warehouse in Melbourne",
-    "description": "A trendy converted warehouse loft in Fitzroy, Melbourne with exposed beams, art walls, and a rooftop deck.",
-    "image": { "path": "https://picsum.photos/seed/listing65/800/500", "filename": "listingimage" },
-    "price": 11500,
-    "location": "Melbourne",
-    "country": "Australia"
-  },
-  {
-    "title": "Hilltop House in Sintra",
-    "description": "A fairytale hilltop house in Sintra surrounded by palaces, forested hills, and Atlantic Ocean breezes.",
-    "image": { "path": "https://picsum.photos/seed/listing66/800/500", "filename": "listingimage" },
-    "price": 9400,
-    "location": "Sintra",
-    "country": "Portugal"
-  },
-  {
-    "title": "Tea Estate Bungalow in Darjeeling",
-    "description": "A heritage bungalow on a working tea estate in Darjeeling with misty Himalayan mornings and guided tea walks.",
-    "image": { "path": "https://picsum.photos/seed/listing67/800/500", "filename": "listingimage" },
-    "price": 6800,
-    "location": "Darjeeling",
-    "country": "India"
-  },
-  {
-    "title": "Wooden Cabin in Hokkaido",
-    "description": "A cozy wooden cabin in Hokkaido's snow country with a private onsen bath and fresh powder skiing nearby.",
-    "image": { "path": "https://picsum.photos/seed/listing68/800/500", "filename": "listingimage" },
-    "price": 13000,
-    "location": "Niseko",
-    "country": "Japan"
-  },
-  {
-    "title": "Castle Suite in Edinburgh",
-    "description": "A regal suite in a converted Scottish castle near Edinburgh with stone walls, tartan rugs, and loch views.",
-    "image": { "path": "https://picsum.photos/seed/listing69/800/500", "filename": "listingimage" },
-    "price": 19500,
-    "location": "Edinburgh",
-    "country": "Scotland"
-  },
-  {
-    "title": "Beachfront Cabana in Zanzibar",
-    "description": "A palm-thatched cabana on Zanzibar's spice coast with white sand beaches and dhow sailing at sunset.",
-    "image": { "path": "https://picsum.photos/seed/listing70/800/500", "filename": "listingimage" },
-    "price": 10800,
-    "location": "Zanzibar",
-    "country": "Tanzania"
-  },
-  {
-    "title": "Adobe House in Santa Fe",
-    "description": "A traditional adobe-style home in Santa Fe with Southwestern art, a kiva fireplace, and desert garden.",
-    "image": { "path": "https://picsum.photos/seed/listing71/800/500", "filename": "listingimage" },
-    "price": 12000,
-    "location": "Santa Fe",
-    "country": "USA"
-  },
-  {
-    "title": "Floating Hotel in Ha Long Bay",
-    "description": "Spend the night on a luxury floating hotel anchored among the limestone karsts of Ha Long Bay.",
-    "image": { "path": "https://picsum.photos/seed/listing72/800/500", "filename": "listingimage" },
-    "price": 14000,
-    "location": "Ha Long Bay",
-    "country": "Vietnam"
-  },
-  {
-    "title": "Mountainside Guesthouse in Nepal",
-    "description": "A warm guesthouse on the Annapurna Circuit in Nepal with yak butter tea and Himalayan sunrise views.",
-    "image": { "path": "https://picsum.photos/seed/listing73/800/500", "filename": "listingimage" },
-    "price": 3500,
-    "location": "Pokhara",
-    "country": "Nepal"
-  },
-  {
-    "title": "Luxury Farmhouse in Provence",
-    "description": "A sun-soaked mas in Provence with lavender fields, a private pool, and local market mornings.",
-    "image": { "path": "https://picsum.photos/seed/listing74/800/500", "filename": "listingimage" },
-    "price": 17500,
-    "location": "Provence",
-    "country": "France"
-  },
-  {
-    "title": "Glass House in the Dolomites",
-    "description": "A stunning glass-walled mountain house in the Dolomites with 360-degree panoramic Alpine views.",
-    "image": { "path": "https://picsum.photos/seed/listing75/800/500", "filename": "listingimage" },
-    "price": 23000,
-    "location": "Cortina d'Ampezzo",
-    "country": "Italy"
-  },
-  {
-    "title": "Colonial Hotel in Havana",
-    "description": "A vibrant colonial hotel in Old Havana with salsa music echoing through the courtyards and vintage Cadillacs outside.",
-    "image": { "path": "https://picsum.photos/seed/listing76/800/500", "filename": "listingimage" },
-    "price": 7200,
-    "location": "Havana",
-    "country": "Cuba"
-  },
-  {
-    "title": "Backpacker Cabin in Queenstown",
-    "description": "A stylish cabin near Queenstown's adventure hub with bungee, skydive, and kayaking all within reach.",
-    "image": { "path": "https://picsum.photos/seed/listing77/800/500", "filename": "listingimage" },
-    "price": 6500,
-    "location": "Queenstown",
-    "country": "New Zealand"
-  },
-  {
-    "title": "Palace Hotel in Udaipur",
-    "description": "A lakeside palace hotel in Udaipur with hand-painted murals, boat rides, and Rajasthani cuisine.",
-    "image": { "path": "https://picsum.photos/seed/listing78/800/500", "filename": "listingimage" },
-    "price": 15000,
-    "location": "Udaipur",
-    "country": "India"
-  },
-  {
-    "title": "Harbor Apartment in Sydney",
-    "description": "A bright apartment overlooking Sydney Harbour with views of the Opera House and ferry rides at the door.",
-    "image": { "path": "https://picsum.photos/seed/listing79/800/500", "filename": "listingimage" },
-    "price": 18000,
-    "location": "Sydney",
-    "country": "Australia"
-  },
-  {
-    "title": "Cosy Hostel Room in Berlin",
-    "description": "A private room in a hip Berlin hostel in Kreuzberg, steps from street art, techno clubs, and food markets.",
-    "image": { "path": "https://picsum.photos/seed/listing80/800/500", "filename": "listingimage" },
-    "price": 4200,
-    "location": "Berlin",
-    "country": "Germany"
-  },
-  {
-    "title": "Overwater Villa in Tahiti",
-    "description": "A romantic overwater villa in Bora Bora's famous lagoon, with private deck, glass floor, and butler service.",
-    "image": { "path": "https://picsum.photos/seed/listing81/800/500", "filename": "listingimage" },
-    "price": 38000,
-    "location": "Bora Bora",
-    "country": "French Polynesia"
-  },
-  {
-    "title": "Mud House in Hampi",
-    "description": "An eco-friendly mud house among Hampi's ancient boulders and ruins, lit by lanterns with a rooftop terrace.",
-    "image": { "path": "https://picsum.photos/seed/listing82/800/500", "filename": "listingimage" },
-    "price": 3800,
-    "location": "Hampi",
-    "country": "India"
-  },
-  {
-    "title": "Beachfront Hostel in Lisbon",
-    "description": "A vibrant beach hostel near Cascais with surf lessons, beach volleyball, and fresh grilled sardines daily.",
-    "image": { "path": "https://picsum.photos/seed/listing83/800/500", "filename": "listingimage" },
-    "price": 3500,
-    "location": "Cascais",
-    "country": "Portugal"
-  },
-  {
-    "title": "Alpine Refuge in Zermatt",
-    "description": "A cozy alpine hut in Zermatt with the Matterhorn directly in view, ski slopes at the door, and fondue evenings.",
-    "image": { "path": "https://picsum.photos/seed/listing84/800/500", "filename": "listingimage" },
-    "price": 26000,
-    "location": "Zermatt",
-    "country": "Switzerland"
-  },
-  {
-    "title": "Rice Terrace Cottage in Banaue",
-    "description": "A remote mountain cottage overlooking the ancient Ifugao rice terraces of Banaue, a UNESCO World Heritage Site.",
-    "image": { "path": "https://picsum.photos/seed/listing85/800/500", "filename": "listingimage" },
-    "price": 4600,
-    "location": "Banaue",
-    "country": "Philippines"
-  },
-  {
-    "title": "Urban Flat in Singapore",
-    "description": "A modern flat in the heart of Singapore's Marina Bay area with skyline views and rooftop garden access.",
-    "image": { "path": "https://picsum.photos/seed/listing86/800/500", "filename": "listingimage" },
-    "price": 14500,
-    "location": "Singapore",
-    "country": "Singapore"
-  },
-  {
-    "title": "Sea Cave Villa in Malta",
-    "description": "A cliffside villa in Gozo, Malta built into ancient sea caves with private sea access and cobalt-blue waters.",
-    "image": { "path": "https://picsum.photos/seed/listing87/800/500", "filename": "listingimage" },
-    "price": 13500,
-    "location": "Gozo",
-    "country": "Malta"
-  },
-  {
-    "title": "Traditional Yurt in Mongolia",
-    "description": "Sleep in an authentic ger (yurt) on the Mongolian steppe with a local nomadic family and horse riding at dawn.",
-    "image": { "path": "https://picsum.photos/seed/listing88/800/500", "filename": "listingimage" },
-    "price": 4000,
-    "location": "Ulaanbaatar",
-    "country": "Mongolia"
-  },
-  {
-    "title": "Luxury Yacht Stay in Dubrovnik",
-    "description": "Charter a luxury yacht anchored in Dubrovnik's old port — your floating suite on the Adriatic coast.",
-    "image": { "path": "https://picsum.photos/seed/listing89/800/500", "filename": "listingimage" },
-    "price": 32000,
-    "location": "Dubrovnik",
-    "country": "Croatia"
-  },
-  {
-    "title": "Hillside Guesthouse in Bhutan",
-    "description": "A warm guesthouse in the Paro valley of Bhutan, near the Tiger's Nest monastery with organic farm meals.",
-    "image": { "path": "https://picsum.photos/seed/listing90/800/500", "filename": "listingimage" },
-    "price": 9000,
-    "location": "Paro",
-    "country": "Bhutan"
-  },
-  {
-    "title": "Historic Inn in Bruges",
-    "description": "A 16th-century inn overlooking a canal in Bruges with wooden beams, Belgian beers, and cobblestone streets.",
-    "image": { "path": "https://picsum.photos/seed/listing91/800/500", "filename": "listingimage" },
-    "price": 11000,
-    "location": "Bruges",
-    "country": "Belgium"
-  },
-  {
-    "title": "Coastal Cabin in Big Sur",
-    "description": "A rustic cabin on the dramatic Big Sur coastline of California, perched above crashing Pacific waves.",
-    "image": { "path": "https://picsum.photos/seed/listing92/800/500", "filename": "listingimage" },
-    "price": 17500,
-    "location": "Big Sur",
-    "country": "USA"
-  },
-  {
-    "title": "Floating Village Stay in Cambodia",
-    "description": "An authentic stay in a floating village on Tonle Sap Lake in Cambodia with local boat rides and fishing.",
-    "image": { "path": "https://picsum.photos/seed/listing93/800/500", "filename": "listingimage" },
-    "price": 3200,
-    "location": "Siem Reap",
-    "country": "Cambodia"
-  },
-  {
-    "title": "Ice Hotel Suite in Jukkasjärvi",
-    "description": "Sleep inside a hand-carved ice suite in Sweden's famous ICEHOTEL with reindeer skins and an aurora-lit sky.",
-    "image": { "path": "https://picsum.photos/seed/listing94/800/500", "filename": "listingimage" },
-    "price": 30000,
-    "location": "Jukkasjärvi",
-    "country": "Sweden"
-  },
-  {
-    "title": "Clifftop Cabin in Meteora",
-    "description": "A dramatic cabin near the rock monasteries of Meteora, Greece — sunrise here feels otherworldly.",
-    "image": { "path": "https://picsum.photos/seed/listing95/800/500", "filename": "listingimage" },
-    "price": 9800,
-    "location": "Meteora",
-    "country": "Greece"
-  },
-  {
-    "title": "Canal Boat in Birmingham",
-    "description": "A charming narrowboat moored on Birmingham's canal network with a wood-burning stove and ducks at the window.",
-    "image": { "path": "https://picsum.photos/seed/listing96/800/500", "filename": "listingimage" },
-    "price": 7000,
-    "location": "Birmingham",
-    "country": "United Kingdom"
-  },
-  {
-    "title": "Tepee Glamping in Arizona",
-    "description": "A luxury tepee under the Arizona stars with fire pits, Native American cultural experiences, and red rock sunsets.",
-    "image": { "path": "https://picsum.photos/seed/listing97/800/500", "filename": "listingimage" },
-    "price": 9500,
-    "location": "Sedona",
-    "country": "USA"
-  },
-  {
-    "title": "Lakehouse in Coorg",
-    "description": "A private lakehouse in the coffee hills of Coorg, Karnataka surrounded by cardamom, pepper vines and mist.",
-    "image": { "path": "https://picsum.photos/seed/listing98/800/500", "filename": "listingimage" },
-    "price": 7500,
-    "location": "Coorg",
-    "country": "India"
-  },
-  {
-    "title": "Cliffside Retreat in Cinque Terre",
-    "description": "A colourful cliffside retreat in the five villages of Cinque Terre with sea breezes, pesto, and hiking trails.",
-    "image": { "path": "https://picsum.photos/seed/listing99/800/500", "filename": "listingimage" },
-    "price": 14000,
-    "location": "Cinque Terre",
-    "country": "Italy"
-  },
-  {
-    "title": "Boutique Hotel Room in Hanoi",
-    "description": "A unique stay in Hanoi that offers privacy, comfort, and a strong connection to the local landscape.",
-    "image": { "path": "https://picsum.photos/seed/listing100/800/500", "filename": "listingimage" },
-    "price": 7500,
-    "location": "Hanoi",
-    "country": "Vietnam"
-  }
+const dbURL=process.env.ATLAS_DB_URL
+mongoose.connect("mongodb://vishalranmale53_db_user:eS0ktowX1AYE0VX9@ac-eme4ltu-shard-00-00.puig6bo.mongodb.net:27017,ac-eme4ltu-shard-00-01.puig6bo.mongodb.net:27017,ac-eme4ltu-shard-00-02.puig6bo.mongodb.net:27017/?ssl=true&replicaSet=atlas-wb058g-shard-0&authSource=admin&appName=Cluster0").then(()=>{
+    console.log("Connection Established To An Wonderlust Database");
+});
+const ownerId = new mongoose.Types.ObjectId("6a41e8de92946199665b973b");
+ const img = (id) =>
+  `https://images.unsplash.com/photo-${id}?w=800&auto=format&fit=crop&q=60`;
+ 
+const sampleListings = [
+ {
+    title: "Private Beachfront Villa with Infinity Pool — Bali",
+    description: "A 4-bedroom villa right on Seminyak beach with a 25-metre infinity pool that blends into the Indian Ocean horizon. Includes a private chef, daily spa treatments, and a butler on call. Sunsets from the bale pavilion are genuinely life-altering.",
+    image: { path: img("1507525428153-1d05cbc6d8e3"), filename: "listingimage" },
+    price: 47500, location: "Seminyak Beach, Bali", country: "Indonesia",
+    reviews: [], owner: ownerId, categoery: "trending",
+  },
+  {
+    title: "Caldera Cliffside Cave Suite — Santorini",
+    description: "Hand-carved into the volcanic Oia cliff face with a private heated plunge pool 300 metres above the Aegean. The volcano view at sunset, when the entire caldera turns molten gold, is the most photographed scene in Greece.",
+    image: { path: img("1570077188670-e3a8d69ac5ff"), filename: "listingimage" },
+    price: 58000, location: "Oia, Santorini", country: "Greece",
+    reviews: [], owner: ownerId, categoery: "trending",
+  },
+  {
+    title: "Overwater Glass-Floor Bungalow — Maldives",
+    description: "Perched on stilts above a UNESCO biosphere lagoon, this bungalow has a glass floor panel revealing the live coral reef below, a private sundeck, and steps directly into the warm Indian Ocean. Whale sharks pass underneath at dawn.",
+    image: { path: img("1439066615861-d1af74d74000"), filename: "listingimage" },
+    price: 1_05_000, location: "North Malé Atoll", country: "Maldives",
+    reviews: [], owner: ownerId, categoery: "trending",
+  },
+  {
+    title: "Eiffel Tower Balcony Apartment — Paris",
+    description: "A Haussmann apartment on the Avenue de Suffren with a private Juliet balcony pointing directly at the Eiffel Tower. Champagne is served on arrival; the hourly sparkle show is best watched from the living room sofa.",
+    image: { path: img("1502602898657-3e91760cbb34"), filename: "listingimage" },
+    price: 41000, location: "7th Arrondissement, Paris", country: "France",
+    reviews: [], owner: ownerId, categoery: "trending",
+  },
+  {
+    title: "Palm Jumeirah Five-Star Villa — Dubai",
+    description: "A beachfront villa on the exclusive Palm Jumeirah frond with a private pool facing the Burj Al Arab, a home cinema, and a dedicated Rolls-Royce and driver. Dubai's skyline reflected in your pool at night is pure spectacle.",
+    image: { path: img("1512453979798-5ea266f8880c"), filename: "listingimage" },
+    price: 75000, location: "Palm Jumeirah, Dubai", country: "United Arab Emirates",
+    reviews: [], owner: ownerId, categoery: "trending",
+  },
+  {
+    title: "Cliffside Villa above the Mediterranean — Positano",
+    description: "Carved into the Positano limestone cliffs 200 metres above the Amalfi Coast, this villa has hand-painted Vietri tiles, a cascading terrace pool, a private boat mooring, and a lemon grove you can pick from at breakfast.",
+    image: { path: img("1534308983496-4fabb1a015ee"), filename: "listingimage" },
+    price: 53000, location: "Positano, Campania", country: "Italy",
+    reviews: [], owner: ownerId, categoery: "trending",
+  },
+  {
+    title: "Full-Floor Penthouse, Manhattan — New York",
+    description: "A wraparound terrace 52 floors above Midtown Manhattan with Central Park spread directly below. The living room is a Mondrian-inspired gallery; the private plunge pool faces the Empire State Building.",
+    image: { path: img("1534430480872-3498386e7856"), filename: "listingimage" },
+    price: 88000, location: "Midtown Manhattan, New York", country: "United States",
+    reviews: [], owner: ownerId, categoery: "trending",
+  },
+  {
+    title: "Rooftop Penthouse, Gothic Quarter — Barcelona",
+    description: "A 15th-century merchant palace turned designer penthouse above the Barri Gòtic with original Gothic stone arches, a rooftop terrace overlooking the cathedral spires, and a Michelin restaurant in the building.",
+    image: { path: img("1539037116277-4db20889f2d4"), filename: "listingimage" },
+    price: 22500, location: "Barri Gòtic, Barcelona", country: "Spain",
+    reviews: [], owner: ownerId, categoery: "trending",
+  },
+  {
+    title: "Cloud Forest Canopy Villa — Costa Rica",
+    description: "An award-winning eco-villa 40 metres up in the Monteverde cloud forest canopy, where resplendent quetzals wake you at sunrise and the Arenal Volcano glows orange on the horizon at dusk. Zero carbon footprint.",
+    image: { path: img("1493246507139-91e8fad9978e"), filename: "listingimage" },
+    price: 27800, location: "Monteverde Cloud Forest", country: "Costa Rica",
+    reviews: [], owner: ownerId, categoery: "trending",
+  },
+  {
+    title: "Architect-Designed Loft, Shibuya — Tokyo",
+    description: "Designed by an acclaimed Tokyo studio, this Shibuya loft has terraced interior gardens, a sunken tatami lounge, a cedar soaking tub, and a panoramic deck above the neon city. The crossing is visible from the roof.",
+    image: { path: img("1540959733332-eab4deabeeaf"), filename: "listingimage" },
+    price: 30500, location: "Shibuya, Tokyo", country: "Japan",
+    reviews: [], owner: ownerId, categoery: "trending",
+  },
+  {
+    title: "Mayfair Georgian Townhouse — London",
+    description: "Five floors of 1740 Georgian grandeur in Royal Mayfair with original marble fireplaces, a barrel-vaulted wine cellar, a private walled garden with a stone fountain, and a part-time butler six days a week.",
+    image: { path: img("1513635269975-59663e0ac1ad"), filename: "listingimage" },
+    price: 59000, location: "Mayfair, London", country: "United Kingdom",
+    reviews: [], owner: ownerId, categoery: "trending",
+  },
+  {
+    title: "Harbour Foreshore Estate — Sydney",
+    description: "A contemporary four-bedroom home on the Sydney Harbour foreshore with a private 15-metre jetty, a 25m lap pool, and an unbroken Opera House and Harbour Bridge view from every room.",
+    image: { path: img("1506973035872-a4ec16b8e8d9"), filename: "listingimage" },
+    price: 73500, location: "Point Piper, Sydney", country: "Australia",
+    reviews: [], owner: ownerId, categoery: "trending",
+  },
+ 
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  //                   FARMS  [ 13 ]
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  {
+    title: "Chianti Classico Vineyard Estate — Tuscany",
+    description: "A 16th-century farmhouse at the heart of a 40-hectare working Chianti Classico estate. Private barrel tastings, truffle hunts in the oak forest, olive oil pressing, and a Michelin-trained cook preparing dinners from the kitchen garden.",
+    image: { path: img("1510812431401-41d2bd2722f3"), filename: "listingimage" },
+    price: 19500, location: "Greve in Chianti, Tuscany", country: "Italy",
+    reviews: [], owner: ownerId, categoery: "farms",
+  },
+  {
+    title: "Lavender Farm Stone Cottage — Provence",
+    description: "A honey-stone cottage on the Valensole Plateau surrounded by 8 hectares of lavender in full purple bloom (June–August). Guided distillation workshop, beekeeper visits, and lavender honey breakfasts on the stone terrace.",
+    image: { path: img("1499002238440-d264edd596ec"), filename: "listingimage" },
+    price: 14800, location: "Valensole, Alpes-de-Haute-Provence", country: "France",
+    reviews: [], owner: ownerId, categoery: "farms",
+  },
+  {
+    title: "High Country Merino Sheep Station — New Zealand",
+    description: "A working 12,000-acre Merino station in the Mackenzie Basin with the snowcapped Southern Alps as a permanent backdrop. Help muster sheep on horseback, fish brown trout at sunset, and sleep under the clearest skies on Earth.",
+    image: { path: img("1469854523086-cc02fe5d8800"), filename: "listingimage" },
+    price: 12500, location: "Mackenzie Basin, Canterbury", country: "New Zealand",
+    reviews: [], owner: ownerId, categoery: "farms",
+  },
+  {
+    title: "Maple Sugar Bush Farmhouse — Vermont",
+    description: "A 200-year-old New England farmhouse on a 350-acre maple estate. Tap trees in sugaring season (March), kayak the reservoir in summer, and rock on the porch watching the legendary fall foliage turn the hills to fire.",
+    image: { path: img("1505765050516-f72dcac9c60e"), filename: "listingimage" },
+    price: 16800, location: "Stowe, Vermont", country: "United States",
+    reviews: [], owner: ownerId, categoery: "farms",
+  },
+  {
+    title: "Highland Red Cattle Farm — Scotland",
+    description: "A remote stone farmhouse in Glen Affric National Nature Reserve where shaggy Highland cattle roam freely through the ancient Caledonian forest. Peat fire, home-cooked venison, single-malt whisky tasting, and absolute Highland silence.",
+    image: { path: img("1500076610-6cbbd62b7bef"), filename: "listingimage" },
+    price: 14200, location: "Glen Affric, Inverness-shire", country: "United Kingdom",
+    reviews: [], owner: ownerId, categoery: "farms",
+  },
+  {
+    title: "500-Year-Old Olive Grove Finca — Andalusia",
+    description: "A whitewashed Andalusian finca nestled among century-old olive trees above the white village of Ronda. Learn cold-press olive oil making, ride Andalusian horses across the estate, and sip aged fino sherry under the cork oaks at dusk.",
+    image: { path: img("1474625342403-dabb44c9b2ce"), filename: "listingimage" },
+    price: 12000, location: "Ronda, Málaga", country: "Spain",
+    reviews: [], owner: ownerId, categoery: "farms",
+  },
+  {
+    title: "Premier Cru Wine Estate Villa — Napa Valley",
+    description: "A private guest villa inside one of Napa's most decorated Cabernet Sauvignon estates. Daily barrel tastings, winemaker dinners, vineyard yoga at sunrise, and a wine cave carved 30 metres into the hillside exclusively for guests.",
+    image: { path: img("1464822759023-fed622ff2c3b"), filename: "listingimage" },
+    price: 33500, location: "Yountville, Napa Valley", country: "United States",
+    reviews: [], owner: ownerId, categoery: "farms",
+  },
+  {
+    title: "Bernese Alps Dairy Chalet — Switzerland",
+    description: "A 300-year-old alpine chalet on a working dairy farm at 1,600m above Grindelwald. Watch the cheesemaker press Gruyère by hand each morning; the Eiger north face is visible across the valley every clear day.",
+    image: { path: img("1531366936337-7c912a4589a7"), filename: "listingimage" },
+    price: 18200, location: "Grindelwald, Bernese Oberland", country: "Switzerland",
+    reviews: [], owner: ownerId, categoery: "farms",
+  },
+  {
+    title: "Wild Atlantic Farmhouse — County Kerry",
+    description: "A warm Kerry farmhouse on the Wild Atlantic Way where the O'Sullivan family has farmed since 1847. Full Irish fry each morning, sea-fishing off the cliffs at Slea Head, and a turf fire and whiskey every evening without exception.",
+    image: { path: img("1549893072-4bc678117f45"), filename: "listingimage" },
+    price: 10200, location: "Dingle Peninsula, County Kerry", country: "Ireland",
+    reviews: [], owner: ownerId, categoery: "farms",
+  },
+  {
+    title: "UNESCO Jatiluwih Rice Terrace Retreat — Bali",
+    description: "A Javanese Joglo house elevated above the sweeping UNESCO Jatiluwih rice terraces. Private plunge pool, organic farm-to-table dinners, and a guided ritual at a 1,000-year-old subak water temple visible from the front deck.",
+    image: { path: img("1537996194471-e657df975ab4"), filename: "listingimage" },
+    price: 13500, location: "Jatiluwih, Tabanan, Bali", country: "Indonesia",
+    reviews: [], owner: ownerId, categoery: "farms",
+  },
+  {
+    title: "Royal Spice Farm Haveli — Rajasthan",
+    description: "A restored Mughal-era haveli on a working spice and mustard farm near the Blue City of Jodhpur. Royal Rajput hospitality includes camel safaris at dawn, Ghoomar folk dance evenings, and star-lit rooftop dinners under the desert sky.",
+    image: { path: img("1477587458883-47145ed94245"), filename: "listingimage" },
+    price: 9800, location: "Jodhpur, Rajasthan", country: "India",
+    reviews: [], owner: ownerId, categoery: "farms",
+  },
+  {
+    title: "Gaucho Estancia at the Edge of the World — Patagonia",
+    description: "A legendary estancia at the foot of the Torres del Paine massif where gauchos muster sheep across 15,000 acres on horseback. Wood-fired asado dinners, glacier day trips, condors soaring overhead, and total Patagonian silence.",
+    image: { path: img("1508193638397-1c4234db14d8"), filename: "listingimage" },
+    price: 21000, location: "Puerto Natales, Magallanes", country: "Chile",
+    reviews: [], owner: ownerId, categoery: "farms",
+  },
+  {
+    title: "Red Outback Cattle Station — Queensland",
+    description: "An iconic red-earth cattle station in Channel Country Queensland where the horizon is perfectly flat in every direction for 200 kilometres. Muster Brahman cattle on quad bikes and watch the Milky Way appear from horizon to horizon at nightfall.",
+    image: { path: img("1516026672322-bc52d61a55d5"), filename: "listingimage" },
+    price: 15200, location: "Longreach, Queensland", country: "Australia",
+    reviews: [], owner: ownerId, categoery: "farms",
+  },
+ 
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  //                   ROOMS  [ 12 ]
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  {
+    title: "Edo-Period Machiya Tatami Room — Kyoto Gion",
+    description: "A room in a wooden Edo-period machiya townhouse inside the Gion geisha district with hand-woven tatami, a private stone-garden engawa veranda, and a morning matcha ceremony performed by the host beside the koi pond.",
+    image: { path: img("1540518614846-7eded433c457"), filename: "listingimage" },
+    price: 8800, location: "Gion, Kyoto", country: "Japan",
+    reviews: [], owner: ownerId, categoery: "rooms",
+  },
+  {
+    title: "14th-Century Grand Canal Palazzo Room — Venice",
+    description: "A frescoed baroque room on the piano nobile of a 14th-century Grand Canal palazzo. Gondolas glide beneath your arched windows; the host serves Bellinis on the private water balcony each evening at sunset.",
+    image: { path: img("1553877522-43269d4ea984"), filename: "listingimage" },
+    price: 16800, location: "Cannaregio, Venice", country: "Italy",
+    reviews: [], owner: ownerId, categoery: "rooms",
+  },
+  {
+    title: "Bosphorus Yalı Waterfront Room — Istanbul",
+    description: "A luminous room in a 19th-century wooden yalı waterfront mansion where the strait separating Europe and Asia shimmers 3 metres from your window. Dolphins pass every morning during their seasonal Bosphorus migration.",
+    image: { path: img("1524231757912-21f4fe3a7200"), filename: "listingimage" },
+    price: 12400, location: "Bebek, Istanbul", country: "Turkey",
+    reviews: [], owner: ownerId, categoery: "rooms",
+  },
+  {
+    title: "Gothic Vaulted Room, Old Town — Prague",
+    description: "A room with exposed 13th-century Gothic vaulting 60 metres from the Astronomical Clock in Staré Město. Handmade svíčková and freshly tapped Pilsner Urquell are served in the arched breakfast room each morning.",
+    image: { path: img("1519677100203-a0e668c92439"), filename: "listingimage" },
+    price: 7800, location: "Staré Město, Prague", country: "Czech Republic",
+    reviews: [], owner: ownerId, categoery: "rooms",
+  },
+  {
+    title: "17th-Century Merchant Canal House Room — Amsterdam",
+    description: "A room in a tall narrow 17th-century merchant's house overlooking the most romantic stretch of the Prinsengracht canal. Dutch Masters prints, original ceiling beams, and a three-speed Amsterdam bicycle waiting at the front door.",
+    image: { path: img("1534351590666-13e3e96b5017"), filename: "listingimage" },
+    price: 11200, location: "Jordaan, Amsterdam", country: "Netherlands",
+    reviews: [], owner: ownerId, categoery: "rooms",
+  },
+  {
+    title: "Ringstraße Art Nouveau Room — Vienna",
+    description: "A room in a grand Gründerzeit apartment on the imperial Ringstraße with original Jugendstil plasterwork, a Bösendorfer piano in the salon, and a five-minute walk to the Vienna Philharmonic and State Opera.",
+    image: { path: img("1519974719765-e6559eac2575"), filename: "listingimage" },
+    price: 10400, location: "Innere Stadt, Vienna", country: "Austria",
+    reviews: [], owner: ownerId, categoery: "rooms",
+  },
+  {
+    title: "200-Year-Old Riad Courtyard Room — Marrakech",
+    description: "A cool whitewashed room in a restored riad around a mosaic-tiled courtyard with a gurgling fountain. Rooftop hammam, mint tea service at arrival, and Atlas Mountain views at sunrise breakfast with homemade msemen.",
+    image: { path: img("1540979388789-6cee28a1cdc9"), filename: "listingimage" },
+    price: 8200, location: "Medina, Marrakech", country: "Morocco",
+    reviews: [], owner: ownerId, categoery: "rooms",
+  },
+  {
+    title: "Edinburgh Castle View Georgian Room",
+    description: "A cosy room in a Grade-A listed Georgian New Town flat with a direct unobstructed view of Edinburgh Castle on its volcanic crag. Fresh Loch Duart smoked salmon and tattie scones are served at the long dining table every morning.",
+    image: { path: img("1506377585622-bedcbb5a8d25"), filename: "listingimage" },
+    price: 9400, location: "New Town, Edinburgh", country: "United Kingdom",
+    reviews: [], owner: ownerId, categoery: "rooms",
+  },
+  {
+    title: "Teak Riverside Warehouse Room — Bangkok",
+    description: "A bohemian room in a converted teak riverside warehouse on the Chao Phraya filled with original Thai contemporary art. The river ferry to the Grand Palace, Wat Arun, and the floating market stops 50 metres from the door.",
+    image: { path: img("1508009603885-50cf7c579365"), filename: "listingimage" },
+    price: 5800, location: "Bang Rak, Bangkok", country: "Thailand",
+    reviews: [], owner: ownerId, categoery: "rooms",
+  },
+  {
+    title: "Table Mountain View Waterfront Studio — Cape Town",
+    description: "A bright studio with an entire glass wall framing the flat-topped majesty of Table Mountain. Cycle to Camps Bay beach in 12 minutes, walk to the V&A Waterfront in 8, or take the cable car to the summit.",
+    image: { path: img("1580060839134-75a5edca2e99"), filename: "listingimage" },
+    price: 9800, location: "Green Point, Cape Town", country: "South Africa",
+    reviews: [], owner: ownerId, categoery: "rooms",
+  },
+  {
+    title: "1950s Colonial Heritage Room — Havana Vieja",
+    description: "A room in an Old Havana casa particular with original 1950s mahogany furniture, 4-metre hand-painted ceilings, and a wrought-iron balcony over cobblestone streets where chrome-laden American classics roll by all day and night.",
+    image: { path: img("1553913861-c0fddf2619ee"), filename: "listingimage" },
+    price: 6200, location: "Habana Vieja, Havana", country: "Cuba",
+    reviews: [], owner: ownerId, categoery: "rooms",
+  },
+  {
+    title: "Fin-de-Siècle Tango District Room — Buenos Aires",
+    description: "An elegant room in a 1905 palacete in the cobbled San Telmo tango district. A professional milonga (tango salon) hosts live orchestras downstairs every Friday and Saturday; the Sunday antique market fills the street each week.",
+    image: { path: img("1589909202802-8f4aadce1849"), filename: "listingimage" },
+    price: 7200, location: "San Telmo, Buenos Aires", country: "Argentina",
+    reviews: [], owner: ownerId, categoery: "rooms",
+  },
+ 
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  //               ICONIC CITIES  [ 13 ]
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  {
+    title: "Central Park Supertall Apartment — New York",
+    description: "A full-floor apartment in a glass supertall on Billionaires' Row with Central Park spread directly below and the Hudson River visible beyond it. The private art collection, home cinema, and personal chef are fully at your service.",
+    image: { path: img("1477959858617-67f85cf4f1df"), filename: "listingimage" },
+    price: 95000, location: "Central Park South, New York", country: "United States",
+    reviews: [], owner: ownerId, categoery: "iconic cities",
+  },
+  {
+    title: "The Shard Sky Residence — London",
+    description: "A private apartment on the 38th floor of London's most iconic glass spire with a 180° sweep of London's skyline — Tower Bridge, the Gherkin, St Paul's, and the Thames bending towards Greenwich all visible at once.",
+    image: { path: img("1513635269975-59663e0ac1ad"), filename: "listingimage" },
+    price: 72000, location: "London Bridge, Southwark", country: "United Kingdom",
+    reviews: [], owner: ownerId, categoery: "iconic cities",
+  },
+  {
+    title: "Île Saint-Louis Historic Apartment — Paris",
+    description: "On Paris's most exclusive island, this apartment inside a 17th-century hôtel particulier has original painted beams, herringbone parquet, and a view of Notre-Dame's east façade from every bedroom window.",
+    image: { path: img("1520939817895-060bdaf4fe1b"), filename: "listingimage" },
+    price: 48000, location: "Île Saint-Louis, Paris", country: "France",
+    reviews: [], owner: ownerId, categoery: "iconic cities",
+  },
+  {
+    title: "Colosseum Rooftop Terrace Apartment — Rome",
+    description: "A rare piano nobile apartment with a private rooftop terrace where you dine with the Colosseum as your backdrop, 2,000 years of history illuminated amber every evening. Arguably the finest single view in all of Rome.",
+    image: { path: img("1552832230-c0197dd311b5"), filename: "listingimage" },
+    price: 34500, location: "Celio, Rome", country: "Italy",
+    reviews: [], owner: ownerId, categoery: "iconic cities",
+  },
+  {
+    title: "Marina Bay Sands View Suite — Singapore",
+    description: "A luxury suite in the Marina Bay precinct where the rooftop infinity pool of Marina Bay Sands, the Supertree Grove, and the city skyline form a single breathtaking panorama from the private balcony. The light show plays at 8 PM nightly.",
+    image: { path: img("1525625293386-3f8f99389edd"), filename: "listingimage" },
+    price: 50000, location: "Marina Bay, Singapore", country: "Singapore",
+    reviews: [], owner: ownerId, categoery: "iconic cities",
+  },
+  {
+    title: "Victoria Peak Harbour Apartment — Hong Kong",
+    description: "A high-floor apartment on Victoria Peak with a glass wall facing the entire Victoria Harbour skyline — often cited as the most valuable urban view on Earth. The Symphony of Lights show lights up the skyline below you every night at 8 PM.",
+    image: { path: img("1536599018102-9f803c140fc1"), filename: "listingimage" },
+    price: 68000, location: "The Peak, Hong Kong Island", country: "China",
+    reviews: [], owner: ownerId, categoery: "iconic cities",
+  },
+  {
+    title: "Copacabana Beachfront Penthouse — Rio de Janeiro",
+    description: "A beachfront penthouse directly above the iconic mosaic Copacabana promenade, with Sugar Loaf Mountain at one end and Arpoador at the other. The sounds of bossa nova and capoeira drift up from the beach all afternoon.",
+    image: { path: img("1483729558449-99ef09a8c325"), filename: "listingimage" },
+    price: 23000, location: "Copacabana, Rio de Janeiro", country: "Brazil",
+    reviews: [], owner: ownerId, categoery: "iconic cities",
+  },
+  {
+    title: "Pyramids of Giza Rooftop Penthouse — Cairo",
+    description: "The only residential penthouse in Cairo with a private rooftop terrace pointing directly at the Great Pyramid of Giza across the Nile Delta. One of the rarest views on Earth — 4,500 years of history in your eyeline at sunset.",
+    image: { path: img("1539650116574-75c0c6d73f6e"), filename: "listingimage" },
+    price: 15500, location: "Zamalek, Cairo", country: "Egypt",
+    reviews: [], owner: ownerId, categoery: "iconic cities",
+  },
+  {
+    title: "Roppongi Hills Art Tower Apartment — Tokyo",
+    description: "A sleek apartment inside the Roppongi Hills complex with views of the Tokyo Tower. teamLab Borderless digital art museum access is included, and the highest concentration of Michelin-starred restaurants in the world is at your lobby.",
+    image: { path: img("1540959733332-eab4deabeeaf"), filename: "listingimage" },
+    price: 35000, location: "Roppongi, Minato-ku, Tokyo", country: "Japan",
+    reviews: [], owner: ownerId, categoery: "iconic cities",
+  },
+  {
+    title: "Keizersgracht Heritage Houseboat — Amsterdam",
+    description: "A masterfully converted 1920s cargo barge on the UNESCO Keizersgracht canal, with a wood-burning fireplace, designer Dutch interiors, a rooftop terrace, and two city bicycles included. Classic Amsterdam at its most authentic.",
+    image: { path: img("1534351590666-13e3e96b5017"), filename: "listingimage" },
+    price: 18500, location: "Keizersgracht, Amsterdam", country: "Netherlands",
+    reviews: [], owner: ownerId, categoery: "iconic cities",
+  },
+  {
+    title: "Galata Tower View Apartment — Istanbul",
+    description: "A split-level apartment with a wraparound terrace and unbroken views of the 14th-century Galata Tower, the Golden Horn, and the minarets of the old city. The muezzin calls echo across Istanbul from five directions at dusk.",
+    image: { path: img("1524231757912-21f4fe3a7200"), filename: "listingimage" },
+    price: 22000, location: "Beyoğlu, Istanbul", country: "Turkey",
+    reviews: [], owner: ownerId, categoery: "iconic cities",
+  },
+  {
+    title: "Sagrada Família View Terrace Flat — Barcelona",
+    description: "A light-drenched Eixample apartment with a private terrace facing Gaudí's Sagrada Família across the boulevard. Watch the basilica's stone facades move from gold to deep rose as the sun tracks across the Eixample grid each day.",
+    image: { path: img("1539037116277-4db20889f2d4"), filename: "listingimage" },
+    price: 21000, location: "Eixample, Barcelona", country: "Spain",
+    reviews: [], owner: ownerId, categoery: "iconic cities",
+  },
+  {
+    title: "Prague Castle Renaissance Apartment — Malá Strana",
+    description: "Inside the UNESCO Malá Strana quarter directly below Prague Castle, this Renaissance apartment has original vault ceilings, a private secret garden, and a night-time view of the floodlit castle reflected in the Vltava River.",
+    image: { path: img("1519677100203-a0e668c92439"), filename: "listingimage" },
+    price: 17000, location: "Malá Strana, Prague", country: "Czech Republic",
+    reviews: [], owner: ownerId, categoery: "iconic cities",
+  },
+ 
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  //                MOUNTAINS  [ 13 ]
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  {
+    title: "Matterhorn Ski-In/Ski-Out Chalet — Zermatt",
+    description: "A classic Swiss timber chalet at 1,640m with the Matterhorn's north face filling your bedroom window. Ski-in/ski-out from the world's highest lift-served ski area; after skiing, a cheese fondue and Valais wine await by the stone fireplace.",
+    image: { path: img("1506905925346-21bda4d32df4"), filename: "listingimage" },
+    price: 78000, location: "Zermatt, Valais", country: "Switzerland",
+    reviews: [], owner: ownerId, categoery: "mountains",
+  },
+  {
+    title: "Ajax Mountain Ski Lodge — Aspen",
+    description: "A grand log-and-glass lodge ski-in/ski-out from Aspen's world-famous Ajax runs. A snowcat-groomed hot tub faces the Elk Mountains, the cellar holds 300 Colorado-craft wines, and elk graze on the lower meadow most evenings.",
+    image: { path: img("1531366936337-7c912a4589a7"), filename: "listingimage" },
+    price: 88000, location: "Aspen Mountain, Colorado", country: "United States",
+    reviews: [], owner: ownerId, categoery: "mountains",
+  },
+  {
+    title: "Himalayan Cedar Forest Cottage — Manali",
+    description: "A hand-built Kullu stone cottage at 2,200m surrounded by deodar cedar forest and apple orchards in bloom. The Rohtang Pass snowfields are visible from the porch; the Beas River thunders through the gorge below.",
+    image: { path: img("1605649487212-47bdab064df7"), filename: "listingimage" },
+    price: 8200, location: "Old Manali, Himachal Pradesh", country: "India",
+    reviews: [], owner: ownerId, categoery: "mountains",
+  },
+  {
+    title: "Dolomites Rifugio at 2,752m — Cortina",
+    description: "A restored WWI mountain rifugio with the iconic Tre Cime di Lavaredo visible from the terrace. Every evening the Dolomite rock turns from white to rose to magenta in the enrosadira — one of the most photographed moments in Italian nature.",
+    image: { path: img("1502784444187-359ac186c5bb"), filename: "listingimage" },
+    price: 17500, location: "Cortina d'Ampezzo, Belluno", country: "Italy",
+    reviews: [], owner: ownerId, categoery: "mountains",
+  },
+  {
+    title: "Arctic Fjord Black Timber Cabin — Senja, Norway",
+    description: "A dramatic all-black cabin on the island of Senja — Norway's secret Lofoten — with floor-to-ceiling glass facing a 600m mountain plunging into an Arctic fjord. Aurora borealis on most clear winter nights; midnight sun for two months in summer.",
+    image: { path: img("1513519245088-0e12902e5a38"), filename: "listingimage" },
+    price: 32000, location: "Husøy, Senja, Troms", country: "Norway",
+    reviews: [], owner: ownerId, categoery: "mountains",
+  },
+  {
+    title: "Tyrolean Hand-Painted Farmhouse — Innsbruck",
+    description: "A 350-year-old Tyrolean farmhouse above Innsbruck with the original Lüftlmalerei painted façade, a private pine sauna, a cowbell meadow, and a resident dachshund named Ludwig who insists on joining every morning hike.",
+    image: { path: img("1418985991508-e47386d96a71"), filename: "listingimage" },
+    price: 15800, location: "Igls, Innsbruck, Tyrol", country: "Austria",
+    reviews: [], owner: ownerId, categoery: "mountains",
+  },
+  {
+    title: "High Atlas Berber Kasbah at 1,800m — Morocco",
+    description: "An ancient red mud-brick kasbah in the High Atlas used as a Berber caravanserai since the 12th century. Mule trekking to remote Amazigh villages, harira soup around the wood fire, and Saharan stargazing sessions with a local astronomer.",
+    image: { path: img("1509233725247-49e657c54213"), filename: "listingimage" },
+    price: 8700, location: "Imlil, Marrakech-Safi", country: "Morocco",
+    reviews: [], owner: ownerId, categoery: "mountains",
+  },
+  {
+    title: "Sacred Valley Cloud Lodge at 3,450m — Peru",
+    description: "A solar-powered lodge in Peru's Sacred Valley with an on-site altitude doctor before your Machu Picchu day. Andean condors spiral on thermals overhead every afternoon; Incan ruins are visible from the dining terrace.",
+    image: { path: img("1526392060635-9d6019884377"), filename: "listingimage" },
+    price: 10700, location: "Urubamba, Cusco Region", country: "Peru",
+    reviews: [], owner: ownerId, categoery: "mountains",
+  },
+  {
+    title: "Suspended Forest Treehouse — Blue Ridge, NC",
+    description: "A Pritzker-inspired treehouse suspended 18m above a Blue Ridge forest floor, with a cedar outdoor bath, automated fireplace, and glass floor panels showing the canopy below. No mobile signal — by deliberate, beautiful design.",
+    image: { path: img("1478265409131-1f65c88f965c"), filename: "listingimage" },
+    price: 24500, location: "Asheville, North Carolina", country: "United States",
+    reviews: [], owner: ownerId, categoery: "mountains",
+  },
+  {
+    title: "Japow Powder Onsen Lodge — Niseko, Hokkaido",
+    description: "A cedar onsen lodge in Niseko — the world capital of Japanese powder snow — with a private rotenburo outdoor hot spring, a dedicated powder guide, and kaiseki dinner featuring Hokkaido sea urchin, crab, and deer.",
+    image: { path: img("1464822759023-fed622ff2c3b"), filename: "listingimage" },
+    price: 28000, location: "Niseko, Hokkaido", country: "Japan",
+    reviews: [], owner: ownerId, categoery: "mountains",
+  },
+  {
+    title: "Carpathian Ridge Pine Cottage — Transylvania",
+    description: "A secluded pine cabin on a Carpathian ridge above the Saxon villages of Transylvania. Brown bear tracks in the snow every morning, wolf howls at midnight, and a medieval fortified church visible from the porch across the valley.",
+    image: { path: img("1469854523086-cc02fe5d8800"), filename: "listingimage" },
+    price: 6800, location: "Bran, Brașov County", country: "Romania",
+    reviews: [], owner: ownerId, categoery: "mountains",
+  },
+  {
+    title: "Dal Lake Walnut-Wood Houseboat — Kashmir",
+    description: "A handcrafted walnut-wood houseboat on legendary Dal Lake, Srinagar, with intricate lattice woodwork, Persian rugs, and a personal shikara water-taxi. Breakfast is served by the host on still lake water every morning.",
+    image: { path: img("1477587458883-47145ed94245"), filename: "listingimage" },
+    price: 11500, location: "Dal Lake, Srinagar, J&K", country: "India",
+    reviews: [], owner: ownerId, categoery: "mountains",
+  },
+  {
+    title: "Coffee & Pepper Estate Bungalow — Coorg",
+    description: "A heritage planter's bungalow on a 200-acre coffee and cardamom estate in the misty Coorg hills. Walk the rows at dawn when the white coffee blossoms fill the valley with a jasmine-like scent that lasts until 10 AM.",
+    image: { path: img("1499793983690-e29da59ef1c2"), filename: "listingimage" },
+    price: 12000, location: "Madikeri, Kodagu, Karnataka", country: "India",
+    reviews: [], owner: ownerId, categoery: "mountains",
+  },
+ 
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  //                 CASTLES  [ 12 ]
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  {
+    title: "Baronial Castle Tower — Scottish Highlands",
+    description: "Your very own Scottish Baronial castle in Inverness-shire with a Great Hall, a turret bedroom with four-poster, suits of armour, stag heads on every wall, and a 200-bottle Highland single malt whisky library. Pipers on request.",
+    image: { path: img("1548777118-b78538f1d273"), filename: "listingimage" },
+    price: 89000, location: "Inverness-shire, Scottish Highlands", country: "United Kingdom",
+    reviews: [], owner: ownerId, categoery: "castles",
+  },
+  {
+    title: "Renaissance Château with Michelin Chef — Loire Valley",
+    description: "A moated Loire Valley château with formal parterre gardens and a medieval kitchen garden. The family has held this estate since Francis I hunted its forests; the resident Michelin-starred chef cooks with produce from the walled garden daily.",
+    image: { path: img("1533154483-6a3cc0f4fbcc"), filename: "listingimage" },
+    price: 1_12_000, location: "Amboise, Indre-et-Loire", country: "France",
+    reviews: [], owner: ownerId, categoery: "castles",
+  },
+  {
+    title: "Neuschwanstein Fairytale Schloss — Bavaria",
+    description: "A turreted 19th-century Romanticism Schloss in the Bavarian Alps — the real-world castle Walt Disney used as his Cinderella model. Fairytale painted interiors, a swan lake in the grounds, and Alpine horn players at dawn.",
+    image: { path: img("1467269204594-9661b134dd2b"), filename: "listingimage" },
+    price: 98000, location: "Füssen, Allgäu, Bavaria", country: "Germany",
+    reviews: [], owner: ownerId, categoery: "castles",
+  },
+  {
+    title: "Atlantic Clifftop Tower Keep — County Galway",
+    description: "A genuine 15th-century O'Flaherty clan tower keep with eight vaulted rooms stacked on a Galway clifftop 80 metres above the crashing Atlantic. A personal historian recounts 600 years of the tower's violent and colourful history each evening.",
+    image: { path: img("1518391846015-55a9cc003b25"), filename: "listingimage" },
+    price: 56000, location: "Clifden, County Galway", country: "Ireland",
+    reviews: [], owner: ownerId, categoery: "castles",
+  },
+  {
+    title: "Edward I Coastal Fortress — Snowdonia, Wales",
+    description: "A restored 13th-century Edwardian fortress in Harlech with a slate banquet hall, arrow-slit sea views, a great round tower bedroom, and private access to 6km of wild Welsh coastline directly below the castle walls.",
+    image: { path: img("1571406252241-db0280bd36cd"), filename: "listingimage" },
+    price: 62000, location: "Harlech, Gwynedd, Wales", country: "United Kingdom",
+    reviews: [], owner: ownerId, categoery: "castles",
+  },
+  {
+    title: "UNESCO Baroque Castle — Český Krumlov",
+    description: "A private apartment within the UNESCO Baroque castle of Český Krumlov — the most intact medieval townscape in Central Europe. Private access to the castle's bear moat, 300-year-old Baroque theatre, and illuminated garden maze.",
+    image: { path: img("1519677100203-a0e668c92439"), filename: "listingimage" },
+    price: 47000, location: "Český Krumlov, South Bohemia", country: "Czech Republic",
+    reviews: [], owner: ownerId, categoery: "castles",
+  },
+  {
+    title: "Gothic Dracula's Bran Castle — Transylvania",
+    description: "The actual Bran Castle fortress in the land of Vlad the Impaler — a Gothic pile on a 60m crag, open exclusively for overnight stays. Stone corridors, secret passages, a torchlit great hall, and the sound of wolves in the surrounding forest.",
+    image: { path: img("1548777118-b78538f1d273"), filename: "listingimage" },
+    price: 38000, location: "Bran, Brașov County", country: "Romania",
+    reviews: [], owner: ownerId, categoery: "castles",
+  },
+  {
+    title: "Pena Palace Royal Suite — Sintra, Portugal",
+    description: "A palatial suite inside the 19th-century Pena Palace — the most colourful Romanticist royal palace in Europe, built by Prince Ferdinand II atop the UNESCO Sintra hills. Private garden terraces and original Saxon-Coburg royal furnishings.",
+    image: { path: img("1555881400-74d7acaacd8b"), filename: "listingimage" },
+    price: 85000, location: "Sintra, Lisbon District", country: "Portugal",
+    reviews: [], owner: ownerId, categoery: "castles",
+  },
+  {
+    title: "Brunello Hilltop Castello — Montalcino, Tuscany",
+    description: "An 11th-century Lombard castello on a golden hilltop above the Brunello di Montalcino vineyards. Frescoed dining room, Roman thermal pool in the grounds, a private cantina, and an estate Sangiovese bottled under your name as a keepsake.",
+    image: { path: img("1533154483-6a3cc0f4fbcc"), filename: "listingimage" },
+    price: 75000, location: "Montalcino, Province of Siena", country: "Italy",
+    reviews: [], owner: ownerId, categoery: "castles",
+  },
+  {
+    title: "Mudéjar Alcázar Palace Suite — Toledo",
+    description: "A private suite in a restored Mudéjar alcázar in the imperial city of Toledo with geometric azulejo tilework, horseshoe arches, a private courtyard marble fountain, and a 2,000-year view over one of the world's most-layered historic cities.",
+    image: { path: img("1558642452-9d2a7deb7f62"), filename: "listingimage" },
+    price: 41000, location: "Toledo, Castile-La Mancha", country: "Spain",
+    reviews: [], owner: ownerId, categoery: "castles",
+  },
+  {
+    title: "1698 Baroque Manor — Chipping Campden, Cotswolds",
+    description: "A 1698 Baroque manor in the golden Cotswolds with a 3-acre walled rose garden, a cedar-lined library of 4,000 first editions, a croquet lawn, and a Michelin-trained cook using kitchen-garden produce for every meal.",
+    image: { path: img("1505916349660-8d91a99f374f"), filename: "listingimage" },
+    price: 67000, location: "Chipping Campden, Gloucestershire", country: "United Kingdom",
+    reviews: [], owner: ownerId, categoery: "castles",
+  },
+  {
+    title: "Schloss Mirabell Baroque Suite — Salzburg",
+    description: "An apartment inside Schloss Mirabell — the Baroque palace built by the Prince-Archbishop of Salzburg in 1606. Hand-painted ceilings, gilded pier mirrors, and the famous Mirabell Gardens — the Sound of Music filming location — directly below.",
+    image: { path: img("1519974719765-e6559eac2575"), filename: "listingimage" },
+    price: 72000, location: "Mirabell, Salzburg", country: "Austria",
+    reviews: [], owner: ownerId, categoery: "castles",
+  },
+ 
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  //                  ARCTIC  [ 12 ]
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  {
+    title: "Glass Aurora Igloo — Þingvellir, Iceland",
+    description: "A heated geodesic glass igloo on a lava field in Þingvellir National Park — where the Eurasian and North American tectonic plates visibly separate. Northern lights dance directly through the dome from September to April; geothermal hot tub outside.",
+    image: { path: img("1516912481800-0788d7645bb5"), filename: "listingimage" },
+    price: 42000, location: "Þingvellir National Park", country: "Iceland",
+    reviews: [], owner: ownerId, categoery: "arctic",
+  },
+  {
+    title: "Aurora Treehouse above the Snowline — Tromsø",
+    description: "A Norwegian-designed treehouse elevated above the snowline outside Tromsø, inside the geomagnetic aurora oval at 69°N. Three walls of floor-to-ceiling glass face north; the probability of seeing northern lights here exceeds 80% in winter.",
+    image: { path: img("1551582045-6ec9c11d8697"), filename: "listingimage" },
+    price: 35000, location: "Tromsø, Troms og Finnmark", country: "Norway",
+    reviews: [], owner: ownerId, categoery: "arctic",
+  },
+  {
+    title: "Kakslauttanen Glass Igloo — Finnish Lapland",
+    description: "Finland's most famous glass igloo — a thermally insulated glass bedroom with a perfect view of aurora borealis from a warm bed. Reindeer wander outside; husky safaris depart at dawn; an elf village is a five-minute snowshoe away.",
+    image: { path: img("1548366086-7f1b76106622"), filename: "listingimage" },
+    price: 38000, location: "Saariselkä, Lapland", country: "Finland",
+    reviews: [], owner: ownerId, categoery: "arctic",
+  },
+  {
+    title: "ICEHOTEL Sculptural Art Suite — Kiruna, Sweden",
+    description: "A hand-sculpted suite made entirely from Torne River ice, redesigned by a different artist every November. Sleep under reindeer furs on an ice bed; wake to the ICEHOTEL's sauna, ice chapel, and the northern lights above Kiruna's taiga forest.",
+    image: { path: img("1516912481800-0788d7645bb5"), filename: "listingimage" },
+    price: 55000, location: "Jukkasjärvi, Kiruna, Lapland", country: "Sweden",
+    reviews: [], owner: ownerId, categoery: "arctic",
+  },
+  {
+    title: "Denali Wilderness Fly-In Lodge — Alaska",
+    description: "A remote fly-in-only lodge in the Denali wilderness with Denali (6,194m — North America's highest peak) filling the entire western sky. Dog mushing in winter, brown bear fishing in summer, and aurora borealis visible for six months of the year.",
+    image: { path: img("1494790108377-be9c29b29330"), filename: "listingimage" },
+    price: 67000, location: "Denali National Park, Alaska", country: "United States",
+    reviews: [], owner: ownerId, categoery: "arctic",
+  },
+  {
+    title: "Kluane Wilderness Spruce Log Cabin — Yukon",
+    description: "A hand-built spruce log cabin in the Yukon wilderness, accessible only by snowmobile from Whitehorse. Dog-sledding from the doorstep, wolf howls at midnight, aurora overhead for months, and zero connectivity — pure, absolute wild.",
+    image: { path: img("1499579575754-3b4dd3e6d841"), filename: "listingimage" },
+    price: 28500, location: "Kluane National Park, Yukon", country: "Canada",
+    reviews: [], owner: ownerId, categoery: "arctic",
+  },
+  {
+    title: "78°N Polar Expedition Base — Svalbard",
+    description: "The world's northernmost private rental at 78°N latitude, just 1,300km from the North Pole. Armed polar bear guides are mandatory for all outdoor excursions. Snowmobile safaris, glacier ice-climbing, and Arctic fox cubs at the door in spring.",
+    image: { path: img("1551582045-6ec9c11d8697"), filename: "listingimage" },
+    price: 78000, location: "Longyearbyen, Svalbard", country: "Norway",
+    reviews: [], owner: ownerId, categoery: "arctic",
+  },
+  {
+    title: "Múlafossur Cliffside Turf Cottage — Faroe Islands",
+    description: "A Norse turf-roofed cottage on the edge of the 612m Gásadalur sea cliff. Puffins nest in the grass roof each spring; the Múlafossur waterfall drops directly into the Atlantic ocean directly below your window.",
+    image: { path: img("1513519245088-0e12902e5a38"), filename: "listingimage" },
+    price: 22000, location: "Gásadalur, Vágar Island", country: "Denmark",
+    reviews: [], owner: ownerId, categoery: "arctic",
+  },
+  {
+    title: "Ilulissat Icefjord Lodge — Greenland",
+    description: "A contemporary lodge on the edge of the UNESCO Ilulissat Icefjord — the world's most productive glacier outside Antarctica. Kayak between house-sized icebergs calved from the Jakobshavn glacier; the calving is audible from the lodge at night.",
+    image: { path: img("1548366086-7f1b76106622"), filename: "listingimage" },
+    price: 62000, location: "Ilulissat, Qaasuitsup", country: "Greenland",
+    reviews: [], owner: ownerId, categoery: "arctic",
+  },
+  {
+    title: "Sámi Reindeer Herder's Kota — Inari Lapland",
+    description: "A traditional birch-frame Sámi kota (tent) on a working reindeer farm in Inari. Learn 10,000-year-old herding traditions from the Mäkinen family, feed reindeer by hand at dawn, and ski across a frozen lake to collect firewood at dusk.",
+    image: { path: img("1494790108377-be9c29b29330"), filename: "listingimage" },
+    price: 17800, location: "Inari, Lapland", country: "Finland",
+    reviews: [], owner: ownerId, categoery: "arctic",
+  },
+  {
+    title: "Reynisfjara Black Sand Beach Cottage — Iceland",
+    description: "A solitary cottage on the cliffs above Reynisfjara's black basalt beach. The hexagonal Reynisdrangar sea stacks rise from the Atlantic 200m away; humpback whales and orcas pass regularly; and the black sand turns silver in the midnight sun.",
+    image: { path: img("1499579575754-3b4dd3e6d841"), filename: "listingimage" },
+    price: 24500, location: "Vík í Mýrdal, South Iceland", country: "Iceland",
+    reviews: [], owner: ownerId, categoery: "arctic",
+  },
+  {
+    title: "Lofoten Arctic White Beach Rorbu — Norway",
+    description: "A converted traditional Norwegian rorbu (fisherman's boathouse) on stilts above the white sand beach of Utakleiv — a beach that regularly ranks in Europe's top ten despite sitting inside the Arctic Circle at 68°N latitude.",
+    image: { path: img("1508009603885-50cf7c579365"), filename: "listingimage" },
+    price: 29500, location: "Utakleiv, Vestvågøy, Lofoten", country: "Norway",
+    reviews: [], owner: ownerId, categoery: "arctic",
+  },
+ 
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  //                 CAMPING  [ 13 ]
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  {
+    title: "Half Dome View Glamping Dome — Yosemite",
+    description: "A geodesic dome on a private meadow in Yosemite Valley with a direct view of Half Dome's north face from the king bed. Wood-burning stove, outdoor cedar soaking tub, and a concierge who packs your gourmet trail lunch before each hike.",
+    image: { path: img("1504280390367-361c6d9f38f4"), filename: "listingimage" },
+    price: 22000, location: "Yosemite Valley, California", country: "United States",
+    reviews: [], owner: ownerId, categoery: "camping",
+  },
+  {
+    title: "Amazon Canopy Treetop Camp — Manaus",
+    description: "Elevated canvas platforms 30 minutes by speedboat from Manaus in the heart of the Amazon. Guided nocturnal piranha-fishing, pink river dolphin swims at dawn, and a Milky Way without a single artificial light for 500km in every direction.",
+    image: { path: img("1593351799227-75df2026356a"), filename: "listingimage" },
+    price: 15500, location: "Rio Negro, Amazonas", country: "Brazil",
+    reviews: [], owner: ownerId, categoery: "camping",
+  },
+  {
+    title: "Great Migration Tented Camp — Central Serengeti",
+    description: "An exclusive six-tent camp in the Serengeti migration corridor during the Great Wildebeest Migration (July–October). Fall asleep to lion roars 20 metres away; a Maasai guide leads pre-dawn walks when the golden light makes everything luminous.",
+    image: { path: img("1501594907352-04cda38ebc29"), filename: "listingimage" },
+    price: 75000, location: "Seronera, Central Serengeti", country: "Tanzania",
+    reviews: [], owner: ownerId, categoery: "camping",
+  },
+  {
+    title: "Mt Aspiring Glacial Lake Camp — Wanaka, NZ",
+    description: "A canvas-walled lakeside hut at the edge of Lake Wanaka inside Mount Aspiring National Park. Swimming in turquoise glacial water, kayaking to a waterfall, and the entire Southern Cross constellation reflected in the still lake at night.",
+    image: { path: img("1469854523086-cc02fe5d8800"), filename: "listingimage" },
+    price: 13200, location: "Lake Wanaka, Otago", country: "New Zealand",
+    reviews: [], owner: ownerId, categoery: "camping",
+  },
+  {
+    title: "Torres del Paine Dome Camp — Chilean Patagonia",
+    description: "A weatherproof dome tent at the foot of the granite Torres del Paine towers. Gusting 100kph Patagonian winds, electric-blue Glacier Grey visible across the lake, and pumas routinely spotted on the camp perimeter at dusk by the ranger.",
+    image: { path: img("1508193638397-1c4234db14d8"), filename: "listingimage" },
+    price: 18000, location: "Torres del Paine National Park", country: "Chile",
+    reviews: [], owner: ownerId, categoery: "camping",
+  },
+  {
+    title: "Erg Chebbi Dune Berber Camp — Merzouga",
+    description: "Handwoven Berber tents in the sweeping orange Erg Chebbi dunes. A camel caravan at 4 AM for the dune-top sunrise, gimbri and guedra percussion around the campfire, and a sky of 3,000 stars with zero humidity and zero light pollution.",
+    image: { path: img("1509233725247-49e657c54213"), filename: "listingimage" },
+    price: 8800, location: "Merzouga, Drâa-Tafilalet", country: "Morocco",
+    reviews: [], owner: ownerId, categoery: "camping",
+  },
+  {
+    title: "Kinabatangan Wildlife River Camp — Borneo",
+    description: "A bamboo camp on the Kinabatangan river in Borneo's richest wildlife corridor. Pygmy elephants, proboscis monkeys, false gharials, and wild Bornean orangutans are regular visitors. A night boat safari by torchlight is led by a local naturalist.",
+    image: { path: img("1593351799227-75df2026356a"), filename: "listingimage" },
+    price: 11500, location: "Sukau, Kinabatangan, Sabah", country: "Malaysia",
+    reviews: [], owner: ownerId, categoery: "camping",
+  },
+  {
+    title: "Landmannalaugar Hot Spring Wild Camp — Iceland",
+    description: "Wild camping beside a natural 42°C geothermal hot spring in Iceland's psychedelic Landmannalaugar rhyolite mountains — streaked red, green, yellow, and black. Hike the legendary Laugavegur trail directly from your tent entrance.",
+    image: { path: img("1499579575754-3b4dd3e6d841"), filename: "listingimage" },
+    price: 14000, location: "Landmannalaugar, Highland Iceland", country: "Iceland",
+    reviews: [], owner: ownerId, categoery: "camping",
+  },
+  {
+    title: "Uluru Sacred Desert Glamping — Northern Territory",
+    description: "Luxury swags under a Southern Hemisphere sky at the base of the sacred Uluru monolith. A Yankunytjatjara Elder guides the dawn walk with stories of 50,000 years of Anangu custodianship; the astronomer-in-residence sets up the field telescope nightly.",
+    image: { path: img("1516026672322-bc52d61a55d5"), filename: "listingimage" },
+    price: 21500, location: "Uluru-Kata Tjuta National Park, NT", country: "Australia",
+    reviews: [], owner: ownerId, categoery: "camping",
+  },
+  {
+    title: "Cairngorms Right-to-Roam Wild Camp — Scotland",
+    description: "A legal wild camp in the Cairngorms National Park under Scotland's famous right-to-roam law. A mountain guide leads summit attempts on Ben Macdui (1,309m); wild swimming in the glacial Loch Avon is compulsory. Total silence, total freedom.",
+    image: { path: img("1500076610-6cbbd62b7bef"), filename: "listingimage" },
+    price: 5500, location: "Cairngorms National Park, Scotland", country: "United Kingdom",
+    reviews: [], owner: ownerId, categoery: "camping",
+  },
+  {
+    title: "Parvati Valley High-Altitude Camp — Himachal Pradesh",
+    description: "An expedition camp at 4,200m in the sacred Parvati Valley, en route to Kheerganga hot springs. Yak-wool blankets, butter chai served at 5 AM, a Milky Way that begins at the horizon on both sides, and Himalayan golden eagles overhead.",
+    image: { path: img("1605649487212-47bdab064df7"), filename: "listingimage" },
+    price: 6900, location: "Kheerganga, Parvati Valley, HP", country: "India",
+    reviews: [], owner: ownerId, categoery: "camping",
+  },
+  {
+    title: "ALMA Observatory Stargazing Camp — Atacama",
+    description: "Camp at 2,400m in the world's driest desert and premier stargazing destination. An ESO-affiliated professional astronomer leads nightly sessions on a 14-inch telescope; the ALMA observatory — the world's most powerful radio telescope — is a day trip.",
+    image: { path: img("1537905569824-f89f18a6e409"), filename: "listingimage" },
+    price: 14800, location: "San Pedro de Atacama, Antofagasta", country: "Chile",
+    reviews: [], owner: ownerId, categoery: "camping",
+  },
+  {
+    title: "Nærøyfjord Sea-Kayak Islet Camp — Norway",
+    description: "A private islet basecamp inside the UNESCO Nærøyfjord — the world's narrowest fjord at 250m wide, flanked by 1,800m granite walls. Kayak to hidden waterfalls, swim to Viking-age farms clinging to the cliff walls, and watch the mist at dawn.",
+    image: { path: img("1513519245088-0e12902e5a38"), filename: "listingimage" },
+    price: 16500, location: "Gudvangen, Nærøyfjord, Vestland", country: "Norway",
+    reviews: [], owner: ownerId, categoery: "camping",
+  },
 ];
-
-
- initData = initData.map((obj) => ({
-    ...obj,
-    owner: "6a3a41b2eb6a6ed887217dfb"
-}));
-listings.insertMany(initData
+listings.insertMany(sampleListings
 ).then(()=>{
   console.log("Insertion Sucessful");
 })
