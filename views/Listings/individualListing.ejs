@@ -1,18 +1,16 @@
 <% layout("layouts/boilerplate") %>
 
 <body class="bg-light">
-  <div class="container mt-5">
+  <div class="container mt-5 listing-details bg-white">
       <h2 class="fw-bold mb-3"><%= doc.title %></h2>
     <!-- Image Banner -->
-    <div class="listing-image mb-4">
+    <div class="listing-image mb-4 listing-details bg-white">
       <img src="<%= doc.image.path %>" alt="Listing Image" class="img-fluid rounded shadow-sm">
     </div>
 
     <!-- Details Card -->
      <div class="listing-details bg-white p-4 rounded shadow-sm">
       <p class="text-muted mb-4"><b>Hosted By:</b><%= doc.owner.username %></p>
-
-    <div class="listing-details bg-white p-4 rounded shadow-sm">
       <p class="text-muted mb-4"><%= doc.description %></p>
 
       <div class="mb-3">
@@ -24,17 +22,19 @@
        <% if(currUser && currUser._id.equals(doc.owner._id)){%>
          <div class="d-flex gap-3 mt-4">
         <form action="/Listings/<%= doc._id %>/Edit" method="get">
-          <button type="submit" class="btn btn-outline-dark px-4">✏️ Edit</button>
+          <button type="submit" class="btn btn-outline-dark px-4">Edit</button>
         </form>
         <form action="/Listings/<%= doc._id %>?_method=delete" method="post">
-          <button type="submit" class="btn btn-danger px-4">🗑️ Delete</button>
+          <button type="submit" class="btn btn-outline-dark px-4">Delete</button>
         </form>
-      </div>
+      
     </div>
+  
        <%}%>
      
-    <hr>
+   
     <%if(currUser && currUser.length!=0){%>
+       <hr>
  <div class="review">
   <h2>Leave your Review!</h2>
 
@@ -96,23 +96,19 @@
     </div> <!-- reviewform -->
 
   </form>
-</div>
+ <!-- </div> -->
    <% }%>
-    
-
-<script>
+ <script>
     let slider = document.querySelector("#rating");
     let value = document.querySelector("#value");
-
     slider.addEventListener("input", () => {
         value.textContent = slider.value;
     });
-</script>
+ </script>
     </form>
-  </div>
-  <hr>
-  <h4>All Reviews</h4>
   <% if(doc.reviews.length!=0){ %>
+     <hr>
+    <h4>All Reviews</h4>
   <div class="AllReviews">
   <% for( let i =0 ; i<doc.reviews.length;i++){ %>
    <div class="card" style="width: 20rem;">
@@ -121,9 +117,7 @@
   </div>
   <div class="card-body">
     <figure>
-    
         <p class="comment"><i>"<%=doc.reviews[i].comment%>"</i></p>
-     
     <p class="starability-result card-text" data-rating="<%=doc.reviews[i].rating%>">
     Rated: 3
   </p>
@@ -131,16 +125,43 @@
   </div>
   <% if(currUser && currUser._id.equals(doc.reviews[i].author._id)){%>
  <form action="/listings/<%=doc._id%>/review/<%=doc.reviews[i]._id%>?_method=delete" method="post">
-    <button class="btn btn-danger" style="margin-left: 10px; margin-bottom: 10px;">Delete!</button>
+    <button class="btn btn-dark" style="margin-left: 10px; margin-bottom: 10px;">Delete!</button>
  </form>
-
   <%}%>
 </div>
+<% } %>
+<% } %>
+</div>
+ </div>
 
- 
-<% } %>
-<% } else { %>
-  <h1>Create An First Review !</h1>
-<% } %>
+
+<div class="listing-details bg-white">
+<hr>
+<h4>Location</h4>
+<div id="map" class="listing-details bg-white"></div>
+<script>
+   let MapToken = "<%=process.env.MAP_TOKEN %>"
+   console.log(MapToken);
+    const map = new mapboxgl.Map({
+        accessToken: MapToken,
+        container: 'map',
+        style: 'mapbox://styles/mapbox/standard', // Use the standard style for the map
+ // display the map as a globe
+        zoom: 9, // initial zoom level, 0 is the world view, higher values zoom in
+        center: ["<%= longitude %>", "<%= latitude %>"] // center the map on this longitude and latitude
+    });
+    // Create An Marker On An Map
+   const marker = new mapboxgl.Marker({
+    color: 'black'
+})
+.setLngLat(["<%= longitude %>", "<%= latitude %>"]) // inject as numbers
+.addTo(map);
+    map.addControl(new mapboxgl.NavigationControl());
+    map.scrollZoom.disable();
+    map.on('style.load', () => {
+        map.setFog({}); // Set the default atmosphere style
+    });
+</script>
   </div>
+   </div>
 </body>
