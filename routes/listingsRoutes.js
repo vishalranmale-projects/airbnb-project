@@ -32,4 +32,21 @@ router.put("/:id",isloggedIn,isOwner,validateListing,upload.single("image"),wrap
 
 // Route To Delete An Particular Listings From An Database
 router.delete("/:id",isloggedIn,isOwner,wrapAsync(deleteListing));
+router.post("/search",async (req,resp)=>{
+let {title} = req.body;
+let listingData = await listings.findOne({title:title});
+console.log(listingData);
+if( listingData === null){
+  req.flash("error","Listing Not Found!");
+  return resp.redirect("/Listings")
+}
+else{
+resp.redirect(`/Listings/${listingData._id}`);
+}
+})
+router.get("/individual/categorey",async(req,resp)=>{
+ const categoery = req.query.categoery;
+ const  listings2 =await listings.find({categoery:categoery});
+ resp.render("./Listings/categoreyListings.ejs",{listings2});
+})
 module.exports = router;
