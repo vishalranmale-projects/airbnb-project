@@ -20,8 +20,22 @@ const user = require("./models/user.js");
 const {signupform,signup,signinform,signin,logout}  = require("./controllers/usercontroller.js");
 const userRoutes = require("./routes/userRoutes.js");
 const multer = require("multer");
+const mongoStore = require("connect-mongo");
+const dbURL=process.env.ATLAS_DB_URL;
+mongoose.connect(dbURL,
+).then(()=>{
+    console.log("Connection Established To An Wonderlust Database");
+});
+const store =  mongoStore.create({
+    mongoUrl:dbURL,
+    crypto:{
+        secret:process.env.SECRET
+    },
+    touchAfter:24*3600
+})
 const sessionOptions = {
-    secret:"Secret Code",
+    // store,
+    secret:process.env.SECRET,
     resave:false,
     saveUninitialized:true,
     cookie:{
@@ -30,8 +44,7 @@ const sessionOptions = {
       httpOnly:true
     }
 }
-app.use(session(
-  sessionOptions));
+app.use(session(sessionOptions));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
@@ -43,26 +56,19 @@ app.use((req,resp,next)=>{
     resp.locals.sucess = req.flash("sucess");
     resp.locals.error = req.flash("error");
     resp.locals.currUser = req.user;
-    console.log(req.session);
     resp.locals.redirectUrl= req.session.redirectUrl;
-    console.log(req.user);
     next();
 })
-mongoose.connect("mongodb://127.0.0.1:27017/wonderlust").then(()=>{
-    console.log("Connection Established To An Wonderlust Database");
-});
+
 app.use(express.urlencoded({extended:true}));
 app.use(methodoverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
-app.set("viewengine","ejs");
+app.set("view engine","ejs");
+app.engine("ejs",ejsmate);
 app.listen(3000,()=>{
     console.log("Server is Starting At An Port No 3000");
 });
-app.engine("ejs",ejsmate);
-app.use(express.static("public"));
-app.get("/",(req,resp)=>{
-    resp.send("Welcome To Home!");
-});
+
 // Middleware To Route An Listing Model Requests
 app.use("/Listings",listingRoutes);
 // Middle Ware To routs An review Model Requests
@@ -71,9 +77,10 @@ app.use("/listings/:listing_id",reviesRoutes);
 app.use("/",userRoutes);
 // Route for if An Request is Not Matched With An All The Following Routes
 app.use((req,resp,next)=>{
-    next(new ExpressError("Check Your API Request For This No One Route is Defined!",403));
+    next(new ExpressError("Page Not Found!",403));
 });
 app.use((err,req,resp,next)=>{
 let {message="Something Went Wrong!",statusCode=403} = err;
 resp.status(statusCode).render("./Listings/error.ejs",{err});
 });
+
