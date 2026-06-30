@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 let reviews = require("./Reviews");
+const { type } = require('../Schema');
 let ListingScheme = new mongoose.Schema({
     title:{
         type:String,
@@ -33,6 +34,9 @@ let ListingScheme = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"users",
         required:true
+    },
+    categoery:{
+        type:String,
     }
 });
 // Query Middleware To Delete An Particular Documents in Relationships
