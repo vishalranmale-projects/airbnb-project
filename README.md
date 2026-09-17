@@ -1,4 +1,4 @@
-Wanderlust 🏡
+Wanderlust 
 
 Wanderlust is a full-stack Airbnb-inspired accommodation listing web application built with Node.js, Express, MongoDB, Mongoose, and EJS.
 
